@@ -2,7 +2,7 @@
 <xs:schema xmlns:android="http://schemas.android.com/apk/res/android" attributeFormDefault="qualified" targetNamespace="http://schemas.android.com/apk/res/android" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>13/11/2019 13:24:03</xs:documentation>
+    <xs:documentation>19/11/2019 09:50:36</xs:documentation>
   </xs:annotation>
   <xs:attribute name="accessibilityLiveRegion">
     <xs:annotation>
@@ -16936,10 +16936,12 @@
             <xs:enumeration value="@id/btnCidade" />
             <xs:enumeration value="@id/edtDestino" />
             <xs:enumeration value="@id/edtOrigem" />
+            <xs:enumeration value="@id/edtResult" />
             <xs:enumeration value="@id/img" />
             <xs:enumeration value="@id/linearLayout1" />
             <xs:enumeration value="@id/tvDestino" />
             <xs:enumeration value="@id/tvOrigem" />
+            <xs:enumeration value="@id/tvResult" />
             <xs:enumeration value="@android:id/accessibilityActionContextClick" />
             <xs:enumeration value="@android:id/accessibilityActionScrollDown" />
             <xs:enumeration value="@android:id/accessibilityActionScrollLeft" />
