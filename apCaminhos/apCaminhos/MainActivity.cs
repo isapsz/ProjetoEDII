@@ -13,12 +13,15 @@ namespace apCaminhos
         ImageView imgMapa;
         EditText edtOrigem, edtDestino;
         Grafo grafo;
+        ListaSimples<Cidade> listaCidade;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
+
+            listaCidade = new ListaSimples<Cidade>();
 
             btnMaisCaminho = FindViewById<Button>(Resource.Id.btnCaminho);
             btnMaisCidade = FindViewById<Button>(Resource.Id.btnCidade);
@@ -31,14 +34,27 @@ namespace apCaminhos
                 
             };
 
-            LerCaminhos();
+            btnMaisCaminho.Click += (o, e) =>{
+                IncluirNoArquivo();
+            };
+
+            btnMaisCidade.Click += (o, e) => {
+                IncluirNoArquivo();
+            };
+
+
+            LerArquivos();
         }
 
-        public void LerCaminhos(){
+        private void IncluirNoArquivo(){
+        }
+
+        private void LerArquivos(){
             StreamReader leitor = new StreamReader(Assets.Open("Cidades.txt"));
             while (!leitor.EndOfStream){
-                string nomeCidade = Cidade.LerRegistro(leitor).Nome;
-                grafo.NovoVertice(nomeCidade);
+                Cidade cidade = Cidade.LerRegistro(leitor);
+                listaCidade.InserirAposFim(cidade);
+                grafo.NovoVertice(cidade.Nome);
             }
 
             leitor.Close();
@@ -46,9 +62,20 @@ namespace apCaminhos
             leitor = new StreamReader(Assets.Open("GrafoTremEspanhaPortugal.txt"));
             while(!leitor.EndOfStream){
                 Caminho caminho = Caminho.LerRegistro(leitor);
+                grafo.IncluirValorAresta(caminho.Origem, caminho.Destino, caminho.Distancia);
             }
 
             leitor.Close();
+        }
+
+        protected override void OnStop(){
+            EscreverArquivos();
+
+            base.OnStop();
+        }
+
+        private void EscreverArquivos(){
+
         }
 
         /*
@@ -113,12 +140,13 @@ SetContentView(scrollView);
         {
             listaCaminhos = new List<PilhaLista<Caminho>>();
 
-            int menorDistancia = int.MaxValue, disAtual = 0;
+            int disAtual = 0, tempoAtual = 0;
             PilhaLista<Caminho> caminhoAtual = new PilhaLista<Caminho>();
 
             PilhaLista<Caminho> aux = new PilhaLista<Caminho>();
 
             bool[] jaPassou = new bool[23];
+
             for (int i = 0; i < 23; i++)
                 jaPassou[i] = false;
 
@@ -137,6 +165,7 @@ SetContentView(scrollView);
                 {
                     Caminho cam = caminhoAtual.Desempilhar();
                     disAtual -= cam.Distancia;
+                    tempoAtual -=cam.Tempo;
                     jaPassou[cam.IdDestino] = true;
                 }
 
@@ -149,11 +178,13 @@ SetContentView(scrollView);
                     while (!caminhoAtual.EstaVazia() && caminhoAtual.OTopo().IdDestino != c.IdOrigem)
                     {
                         Caminho cam = caminhoAtual.Desempilhar();
+                        tempoAtual -=cam.Tempo;
                         disAtual -= cam.Distancia;
                         jaPassou[cam.IdDestino] = false;
                     }
 
                     caminhoAtual.Empilhar(c);
+                    tempoAtual +=c.Tempo;
                     disAtual += c.Distancia;
 
                     if (c.IdDestino != destino)
@@ -164,12 +195,7 @@ SetContentView(scrollView);
                     else
                     {
                         listaCaminhos.Add(caminhoAtual.Clone());
-                        if (disAtual < menorDistancia)
-                        {
-                            menor = listaCaminhos.Count - 1;
-                            menorDistancia = disAtual;
-                        }
-
+                      
                         if (aux.EstaVazia())
                             acabou = true;
                         else
@@ -180,22 +206,18 @@ SetContentView(scrollView);
                             {
                                 Caminho cam = caminhoAtual.Desempilhar();
                                 disAtual -= cam.Distancia;
+                                tempoAtual -=cam.Tempo;
                                 jaPassou[cam.IdDestino] = false;
                             }
 
                             caminhoAtual.Empilhar(retorno);
                             jaPassou[retorno.IdDestino] = true;
                             disAtual += retorno.Distancia;
+                            tempoAtual +=retorno.Tempo;
 
                             while(retorno.IdDestino == destino && !acabou)
                             {
                                 listaCaminhos.Add(caminhoAtual.Clone());
-
-                                if (disAtual < menorDistancia)
-                                {
-                                    menor = listaCaminhos.Count - 1;
-                                    menorDistancia = disAtual;
-                                }
 
                                 if (!aux.EstaVazia())
                                 {
@@ -204,11 +226,13 @@ SetContentView(scrollView);
                                     {
                                         Caminho cam = caminhoAtual.Desempilhar();
                                         disAtual -= cam.Distancia;
+                                        tempoAtual -=cam.Tempo;
                                         jaPassou[cam.IdDestino] = false;
                                     }
 
                                     caminhoAtual.Empilhar(retorno);
                                     disAtual += retorno.Distancia;
+                                    tempoAtual -=retorno.Tempo;
                                 }
                                 else
                                     acabou = true;

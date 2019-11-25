@@ -14,19 +14,24 @@ class Caminho  : IComparable<Caminho>
      estiverem em um arquivo texto formatado corretamente.
     */
     const int inicioOrigem = 0,
-              tamanhoOrigem = 2,
+              tamanhoOrigem = 16,
               inicioDestino = inicioOrigem + tamanhoOrigem,
-              tamanhoDestino = 2,
+              tamanhoDestino = 16,
               inicioDistancia = inicioDestino + tamanhoDestino,
-              tamanhoDistancia = 4,
+              tamanhoDistancia = 5,
               inicioTempo = inicioDistancia + tamanhoDistancia;
 
 
     /*
-     Atributos inteiros que representam a origem e destino do caminho, quanto tempo se gasta para percorrê-lo e qual
+     Atributos inteiros que representam quanto tempo se gasta para percorrê o caminho e qual
      a distância entre os dois pontos.
     */
-    protected int idDestino, idOrigem, distancia, tempo;  
+    protected int distancia, tempo;
+
+    /*
+        Atributos que representam o nome da cidade de origem e destino de um caminho. 
+    */
+    protected string destino, origem;
 
 
     /*
@@ -34,7 +39,7 @@ class Caminho  : IComparable<Caminho>
     */
     public Caminho()
     {
-        idDestino =  idOrigem = 0;
+        destino =  origem = null;
         tempo =  distancia = 0;
     }
 
@@ -42,10 +47,10 @@ class Caminho  : IComparable<Caminho>
      Sobrecarga do construtor que não recebe como parâmetro todos os atributos da classe e os instância com base nos parâmetros.
      @params os atributos inteiros origem e destino do caminho, distancia entre esses dois pontos e o tempo da viagem.
     */
-    public Caminho(int o, int d, int distancia, int tempo)
+    public Caminho(string o, string d, int distancia, int tempo)
     {
-        IdOrigem = o;
-        IdDestino = d;
+        Origem = o;
+        Destino = d;
         Distancia = distancia;
         Tempo = tempo;
     }
@@ -54,36 +59,36 @@ class Caminho  : IComparable<Caminho>
       Sobrecarga do construtor que não recebe como parâmetro alguns atributos da classe e os instância com base nos parâmetros.
       @params os atributos inteiros origem e destino do caminho e a distancia entre esses dois pontos.
     */
-    public Caminho(int idOrigem, int idDestino, int distancia)
+    public Caminho(string origem, string destino, int distancia)
     {
-        IdOrigem = idOrigem;
-        IdDestino = idDestino;
+        Origem = origem;
+        Destino = destino;
         Distancia = distancia;
     }
 
     /*
      Propriedade que retorna e altera o valor do atributo texto destino.
    */
-    public int IdDestino
+    public string Destino
     {
-        get => idDestino;
+        get => destino;
         set
         {
-            if (value > 0)
-                idDestino = value;
+            if (!string.IsNullOrWhiteSpace(value))
+                destino = value;
         }
     }
 
     /*
      Propriedade que retorna e altera o valor do atributo texto origem.
    */
-    public int IdOrigem
+    public string Origem
     {
-        get => idOrigem;
+        get => origem;
         set
         {
-            if(value > 0)
-            idOrigem = value;
+            if(string.IsNullOrWhiteSpace(value))
+            origem = value;
         }
     }
     /*
@@ -128,8 +133,8 @@ class Caminho  : IComparable<Caminho>
             {
                 string linha = arq.ReadLine();
 
-                ret = new Caminho(int.Parse(linha.Substring(inicioOrigem, tamanhoOrigem)),
-                                  int.Parse(linha.Substring(inicioDestino, tamanhoDestino)),
+                ret = new Caminho(linha.Substring(inicioOrigem, tamanhoOrigem),
+                                  linha.Substring(inicioDestino, tamanhoDestino),
                                   int.Parse(linha.Substring(inicioDistancia,tamanhoDistancia)),
                                   int.Parse(linha.Substring(inicioTempo)));
             }
@@ -149,7 +154,7 @@ class Caminho  : IComparable<Caminho>
     */
     public int CompareTo(Caminho other)
     {
-        if (idDestino.Equals(other.idDestino) && idOrigem.Equals(other.idOrigem) && distancia.Equals(other.distancia))
+        if (destino.Equals(other.destino) && origem.Equals(other.origem) && distancia.Equals(other.distancia))
             return 0;
 
         return this.distancia - other.distancia;
