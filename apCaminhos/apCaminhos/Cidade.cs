@@ -12,18 +12,22 @@ class Cidade : IComparable<Cidade>
      estiverem em um arquivo texto formatado corretamente.
     */
     const int inicioId = 0,
-              tamanhoId = 3,
+              tamanhoId = 2,
               inicioNome = inicioId + tamanhoId,
-              tamanhoNome = 15,
+              tamanhoNome = 16,
               inicioCoordenadaX = inicioNome + tamanhoNome,
               tamanhoCoordenadaX = 5,
-              inicioCoordenadaY = inicioCoordenadaX + tamanhoCoordenadaX,
-              tamanhoCoordenadaY = 5;
+              inicioCoordenadaY = inicioCoordenadaX + tamanhoCoordenadaX;
 
     /*
-    Atributos inteiros que representam o id da cidade e as coordenadas de onde ela está localizada.
+    Atributo inteiro que representa o id da cidade.
     */
-    int id, coordenadaX, coordenadaY;
+    int id;
+
+    /*
+     Atributos reais que representam as coordenadas da cidade
+    */
+    float coordenadaX, coordenadaY;
 
     /*
      Atributo string que representam o nome da cidade.
@@ -59,7 +63,7 @@ class Cidade : IComparable<Cidade>
     /*
       Propriedade que retorna e altera o valordo atributo inteiro que representa a coordenada horizontal da cidade.
     */
-    public int CoordenadaX
+    public float CoordenadaX
     {
         get => coordenadaX;
         set
@@ -72,7 +76,7 @@ class Cidade : IComparable<Cidade>
     /*
       Propriedade que retorna e altera o valordo atributo inteiro que representa a coordenada vertical da cidade.
     */
-    public int CoordenadaY
+    public float CoordenadaY
     {
         get => coordenadaY;
         set
@@ -87,7 +91,8 @@ class Cidade : IComparable<Cidade>
     */
     public Cidade() 
     {
-        id = coordenadaX = coordenadaY = -1;
+        id =  -1;
+        coordenadaX = coordenadaY = -1f;
         nome = null;
     }
 
@@ -131,8 +136,8 @@ class Cidade : IComparable<Cidade>
                 string linha = arq.ReadLine();
                 ret.Id = int.Parse(linha.Substring(inicioId, tamanhoId));
                 ret.Nome = linha.Substring(inicioNome, tamanhoNome);
-                ret.CoordenadaX = int.Parse(linha.Substring(inicioCoordenadaX, tamanhoCoordenadaX));
-                ret.CoordenadaY = int.Parse(linha.Substring(inicioCoordenadaY, tamanhoCoordenadaY));
+                ret.CoordenadaX = float.Parse(linha.Substring(inicioCoordenadaX, tamanhoCoordenadaX));
+                ret.CoordenadaY = float.Parse(linha.Substring(inicioCoordenadaY));
             }
         }
         catch (Exception erro)

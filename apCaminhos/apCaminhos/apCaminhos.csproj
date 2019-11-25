@@ -59,6 +59,7 @@
     <Compile Include="Caminho.cs" />
     <Compile Include="CArray.cs" />
     <Compile Include="Cidade.cs" />
+    <Compile Include="DistOriginal.cs" />
     <Compile Include="Grafo.cs" />
     <Compile Include="IGravarEmArquivo.cs" />
     <Compile Include="IStack.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="PilhaVaziaException.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vertice.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
@@ -91,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\mapaEspanhaPortugal.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\GrafoTremEspanhaPortugal.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Cidades.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

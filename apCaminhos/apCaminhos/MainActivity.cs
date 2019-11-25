@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using System.IO;
+using Android.Content.Res;
 
 namespace apCaminhos
 {
@@ -10,6 +12,9 @@ namespace apCaminhos
         Button btnMaisCidade, btnMaisCaminho, btnBuscar;
         ImageView imgMapa;
         EditText edtOrigem, edtDestino;
+        Grafo grafo;
+
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -25,14 +30,42 @@ namespace apCaminhos
             btnBuscar.Click += (o, e) => {
                 
             };
+
+            LerCaminhos();
+        }
+
+        public void LerCaminhos(){
+            StreamReader leitor = new StreamReader(Assets.Open("Cidades.txt"));
+            while (!leitor.EndOfStream){
+                string nomeCidade = Cidade.LerRegistro(leitor).Nome;
+                grafo.NovoVertice(nomeCidade);
+            }
+
+            leitor.Close();
+
+            leitor = new StreamReader(Assets.Open("GrafoTremEspanhaPortugal.txt"));
+            while(!leitor.EndOfStream){
+                Caminho caminho = Caminho.LerRegistro(leitor);
+            }
+
+            leitor.Close();
         }
 
         /*
+         var linearLayout = new LinearLayout(this);
+linearLayout.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+
+var scrollView = new ScrollView(this);
+scrollView.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+
+scrollView.AddView(linearLayout);
+
+SetContentView(scrollView);
         
         const int TAMANHOX = 4096, TAMANHOY = 2048;   
         
       
-        int selecionado, menor;
+        int selecionado;
 
        
         List<PilhaLista<Caminho>> listaCaminhos;
@@ -73,6 +106,8 @@ namespace apCaminhos
             }
         }
 
+
+       
      
         private void AcharCaminhos(int origem, int destino)
         {

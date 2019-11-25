@@ -19,17 +19,14 @@ class Caminho  : IComparable<Caminho>
               tamanhoDestino = 2,
               inicioDistancia = inicioDestino + tamanhoDestino,
               tamanhoDistancia = 4,
-              inicioTempo = inicioDistancia + tamanhoDistancia,
-              tamanhoTempo = 5;
-              /*inicioCusto = inicioTempo + tamanhoTempo,
-              tamanhoCusto = 5;*/
+              inicioTempo = inicioDistancia + tamanhoDistancia;
 
 
     /*
      Atributos inteiros que representam a origem e destino do caminho, quanto tempo se gasta para percorrê-lo e qual
      a distância entre os dois pontos.
     */
-    protected int idDestino, idOrigem, distancia, tempo, custo;  // talvez tenha custo
+    protected int idDestino, idOrigem, distancia, tempo;  
 
 
     /*
@@ -38,7 +35,7 @@ class Caminho  : IComparable<Caminho>
     public Caminho()
     {
         idDestino =  idOrigem = 0;
-        tempo = custo = distancia = 0;
+        tempo =  distancia = 0;
     }
 
     /*
@@ -116,21 +113,7 @@ class Caminho  : IComparable<Caminho>
         }
     }
 
-    /*
-      Propriedade que retorna e altera o valor do atributo inteiro que guarda quanto que se gasta para percorrer o caminho
-      entre os dois pontos.
-    */
-    public int Custo
-    {
-        get => custo;
-        set
-        {
-            if (value >= 0)
-                custo = value;
-        }
-    }
-
-    /*
+     /*
      Método que lê uma linha de um StreamReader de um arquivo que contém os caminhos e retorna um Caminho com base na linha
      lida daquele arquivo.
      @params o StreamReader do arquivo que está sendo lido.
@@ -148,7 +131,7 @@ class Caminho  : IComparable<Caminho>
                 ret = new Caminho(int.Parse(linha.Substring(inicioOrigem, tamanhoOrigem)),
                                   int.Parse(linha.Substring(inicioDestino, tamanhoDestino)),
                                   int.Parse(linha.Substring(inicioDistancia,tamanhoDistancia)),
-                                  int.Parse(linha.Substring(inicioTempo, tamanhoTempo)));
+                                  int.Parse(linha.Substring(inicioTempo)));
             }
         }
         catch (Exception erro)
