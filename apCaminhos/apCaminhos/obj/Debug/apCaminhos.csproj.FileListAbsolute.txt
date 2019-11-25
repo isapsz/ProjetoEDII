@@ -10,7 +10,6 @@ C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\res
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\res\values\strings.xml
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\R.cs.flag
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\uploadflags.txt
-C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll
 bin\Debug\Mono.Android.pdb
 bin\Debug\mscorlib.pdb
 bin\Debug\System.Core.pdb
@@ -32,3 +31,6 @@ obj\Debug\linksrc\System.Runtime.Serialization.pdb
 obj\Debug\linksrc\System.ServiceModel.Internals.pdb
 obj\Debug\linksrc\Mono.Security.pdb
 obj\Debug\linksrc\System.ComponentModel.Composition.pdb
+C:\Users\u18198\Desktop\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\apCaminhos.dll
+C:\Users\u18198\Desktop\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\apCaminhos.pdb
+C:\Users\u18198\Desktop\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\apCaminhos.csprojResolveAssemblyReference.cache

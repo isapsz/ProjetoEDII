@@ -23,7 +23,7 @@ namespace apCaminhos
             edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
 
             btnBuscar.Click += (o, e) => {
-
+                
             };
         }
 
