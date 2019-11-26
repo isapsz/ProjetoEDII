@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class Cidade : IComparable<Cidade>
+class Cidade : IComparable<Cidade>, IBucketHash
 {
     /*
      Atributos inteiros constantes que armazenam os inicios e tamanhos de cada um dos atributos da classe quando estes
@@ -119,6 +119,13 @@ class Cidade : IComparable<Cidade>
         nome = null;
     }
 
+
+    public Cidade(string nome)
+    {
+        coordenadaX = coordenadaY = id = -1;
+        nome = nome;
+    }
+
     /*
      Método que lê uma linha de um StreamReader de um arquivo que contém as cidades e retorna uma Cidade com base na linha
      lida daquele arquivo.
@@ -164,6 +171,21 @@ class Cidade : IComparable<Cidade>
     public override string ToString()
     {
         return $"{id:00}\n\n{nome}";
+    }
+
+
+    public int HashCode()
+    {
+        long tot = 0;
+        char[] charray;
+        charray = this.nome.ToUpper().ToCharArray();
+        for (int i = 0; i <= this.nome.Length - 1; i++)
+            tot += 37 * tot + (int)charray[i];
+
+        if (tot < 0)
+            tot = -tot;
+
+        return (int)tot;
     }
 }
 

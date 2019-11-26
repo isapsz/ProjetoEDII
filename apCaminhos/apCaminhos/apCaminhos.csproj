@@ -61,6 +61,7 @@
     <Compile Include="Cidade.cs" />
     <Compile Include="DistOriginal.cs" />
     <Compile Include="Grafo.cs" />
+    <Compile Include="IBucketHash.cs" />
     <Compile Include="IGravarEmArquivo.cs" />
     <Compile Include="IStack.cs" />
     <Compile Include="ListaSimples.cs" />

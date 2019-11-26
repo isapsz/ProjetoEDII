@@ -3,6 +3,7 @@ using Android.Widget;
 using Android.OS;
 using System.IO;
 using Android.Content.Res;
+using System;
 
 namespace apCaminhos
 {
@@ -13,15 +14,14 @@ namespace apCaminhos
         ImageView imgMapa;
         EditText edtOrigem, edtDestino;
         Grafo grafo;
-        ListaSimples<Cidade> listaCidade;
+        BucketHash<Cidade> listaCidade;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
-
-            listaCidade = new ListaSimples<Cidade>();
+            listaCidade = new BucketHash<Cidade>();
 
             btnMaisCaminho = FindViewById<Button>(Resource.Id.btnCaminho);
             btnMaisCidade = FindViewById<Button>(Resource.Id.btnCidade);
@@ -31,7 +31,10 @@ namespace apCaminhos
             edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
 
             btnBuscar.Click += (o, e) => {
+                Cidade origem = listaCidade[new Cidade(edtOrigem.Text)];
+                Cidade destino = listaCidade[new Cidade(edtDestino.Text)];
                 
+                DesenharCaminho();
             };
 
             btnMaisCaminho.Click += (o, e) =>{
@@ -46,6 +49,11 @@ namespace apCaminhos
             LerArquivos();
         }
 
+        private void DesenharCaminho(int origem, int destino)
+        {
+            string caminho = grafo.Caminho(origem, destino);
+        }
+
         private void IncluirNoArquivo(){
         }
 
@@ -53,7 +61,7 @@ namespace apCaminhos
             StreamReader leitor = new StreamReader(Assets.Open("Cidades.txt"));
             while (!leitor.EndOfStream){
                 Cidade cidade = Cidade.LerRegistro(leitor);
-                listaCidade.InserirAposFim(cidade);
+                listaCidade.Insert(cidade);
                 grafo.NovoVertice(cidade.Nome);
             }
 
@@ -75,6 +83,8 @@ namespace apCaminhos
         }
 
         private void EscreverArquivos(){
+
+
 
         }
 
