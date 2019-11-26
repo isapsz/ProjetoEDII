@@ -2,6 +2,10 @@ Mapa, apCaminhos;md556e25e8f3c5996c181ff25f805c3c5c7.Mapa
 Mapa, apCaminhos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md556e25e8f3c5996c181ff25f805c3c5c7.Mapa
 Mapa;md556e25e8f3c5996c181ff25f805c3c5c7.Mapa
 Mapa;md556e25e8f3c5996c181ff25f805c3c5c7.Mapa
+apCaminhos.InclusaoView, apCaminhos;md5864152ea42da8ec1ec65f0d2fbaa23e8.InclusaoView
+apCaminhos.InclusaoView, apCaminhos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5864152ea42da8ec1ec65f0d2fbaa23e8.InclusaoView
+apCaminhos.InclusaoView;md5864152ea42da8ec1ec65f0d2fbaa23e8.InclusaoView
+apcaminhos.InclusaoView;md5864152ea42da8ec1ec65f0d2fbaa23e8.InclusaoView
 apCaminhos.MainActivity, apCaminhos;md5864152ea42da8ec1ec65f0d2fbaa23e8.MainActivity
 apCaminhos.MainActivity, apCaminhos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5864152ea42da8ec1ec65f0d2fbaa23e8.MainActivity
 apCaminhos.MainActivity;md5864152ea42da8ec1ec65f0d2fbaa23e8.MainActivity

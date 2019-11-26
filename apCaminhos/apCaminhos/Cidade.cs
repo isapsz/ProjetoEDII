@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-public class Cidade : IComparable<Cidade>, IBucketHash
+public class Cidade : IComparable<Cidade>
 {
     /*
      Atributos inteiros constantes que armazenam os inicios e tamanhos de cada um dos atributos da classe quando estes
@@ -142,14 +138,14 @@ public class Cidade : IComparable<Cidade>, IBucketHash
                 ret = new Cidade();
                 string linha = arq.ReadLine();
                 ret.Id = int.Parse(linha.Substring(inicioId, tamanhoId));
-                ret.Nome = linha.Substring(inicioNome, tamanhoNome);
+                ret.Nome = linha.Substring(inicioNome, tamanhoNome).Trim();
                 ret.CoordenadaX = float.Parse(linha.Substring(inicioCoordenadaX, tamanhoCoordenadaX));
                 ret.CoordenadaY = float.Parse(linha.Substring(inicioCoordenadaY));
             }
         }
         catch (Exception erro)
         {
-            throw new IOException(erro.Message);
+            throw new System.IO.IOException(erro.Message);
         }
         return ret;
     }
@@ -172,20 +168,5 @@ public class Cidade : IComparable<Cidade>, IBucketHash
     {
         return $"{id:00}\n\n{nome}";
     }
-
-
-    public int HashCode()
-    {
-        long tot = 0;
-        char[] charray;
-        charray = this.nome.ToUpper().ToCharArray();
-        for (int i = 0; i <= this.nome.Length - 1; i++)
-            tot += 37 * tot + (int)charray[i];
-
-        if (tot < 0)
-            tot = -tot;
-
-        return (int)tot;
-    }
+    
 }
-

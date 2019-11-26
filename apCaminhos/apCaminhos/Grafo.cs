@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class Grafo
 {
-    private const int NUM_VERTICES = 20;
+    private const int NUM_VERTICES = 100;
     private Vertice[] vertices;
     private int[,] adjMatrix;
     int numVerts;
@@ -14,6 +14,8 @@ class Grafo
     int verticeAtual;   // global usada para indicar o vértice atualmente sendo visitado 
     int doInicioAteAtual;   // global usada para ajustar menor caminho com Djikstra
     int nTree;
+
+    public int NumVerts { get => numVerts;}
 
     public Grafo()
     {
@@ -42,10 +44,10 @@ class Grafo
 
     public void IncluirValorAresta(string origem, string destino, int dist){
         int o = -1, d = -1;
-        for (int i = 0; i < vertices.Length; i++)
-            if (vertices[i].Equals(origem))
+        for (int i = 0; i < numVerts; i++)
+            if (vertices[i].rotulo.Equals(origem))
                 o = i;
-            else if (vertices[i].Equals(destino))
+            else if (vertices[i].rotulo.Equals(destino))
                 d = i;
         NovaAresta(o, d, dist);
     }

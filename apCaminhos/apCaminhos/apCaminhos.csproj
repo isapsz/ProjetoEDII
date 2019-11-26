@@ -61,8 +61,8 @@
     <Compile Include="Cidade.cs" />
     <Compile Include="DistOriginal.cs" />
     <Compile Include="Grafo.cs" />
-    <Compile Include="IBucketHash.cs" />
     <Compile Include="IGravarEmArquivo.cs" />
+    <Compile Include="InclusaoView.cs" />
     <Compile Include="IStack.cs" />
     <Compile Include="ListaSimples.cs" />
     <Compile Include="MainActivity.cs" />
@@ -79,6 +79,9 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\layout\InclusaoActivity.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

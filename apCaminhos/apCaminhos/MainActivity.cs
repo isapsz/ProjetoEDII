@@ -6,24 +6,29 @@ using Android.Content.Res;
 using System;
 using Android.Views;
 using Android.Graphics;
+using Android.Content;
+using Android.Runtime;
 
 namespace apCaminhos
 {
     [Activity(Label = "apCaminho", MainLauncher = true)]
     public class MainActivity : Activity
     {
+        const int REQUEST_CIDADE = 1;
+        const int REQUEST_CAMINHO = 2;
         Button btnMaisCidade, btnMaisCaminho, btnBuscar;
         View imgMapa;
         EditText edtOrigem, edtDestino;
         Grafo grafo;
-        BucketHash<Cidade> listaCidade;
-        Mapa mapa;
+        BucketHash listaCidade;
+        Canvas canvas;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
-            listaCidade = new BucketHash<Cidade>();
+            listaCidade = new BucketHash();
+            grafo = new Grafo();
 
             btnMaisCaminho = FindViewById<Button>(Resource.Id.btnCaminho);
             btnMaisCidade = FindViewById<Button>(Resource.Id.btnCidade);
@@ -31,7 +36,12 @@ namespace apCaminhos
             imgMapa = FindViewById<View>(Resource.Id.img);
             edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
             edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
-            
+
+            /*i
+            Paint paint = new Paint();
+            canvas = new Canvas(this);
+            canvas.DrawCircle(origem.CoordenadaX * canvas.Width, origem.CoordenadaY * canvas.Height, 25, paint);*/
+
             btnBuscar.Click += (o, e) => {
                 Cidade origem = listaCidade[new Cidade(edtOrigem.Text)];
                 Cidade destino = listaCidade[new Cidade(edtDestino.Text)];
@@ -57,7 +67,25 @@ namespace apCaminhos
 
         private void IncluirNoArquivo()
         {
-          
+            Intent i = new Intent(this, typeof(InclusaoView));
+            StartActivityForResult(i, REQUEST_CIDADE);
+        }
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            switch(requestCode)
+            {
+                case REQUEST_CIDADE:
+                    if(resultCode == Result.Ok)
+                    {
+                        Cidade nova = new Cidade(grafo.NumVerts, data.GetStringExtra("nome"), data.GetIntExtra("x", 0), data.GetIntExtra("y", 0));
+                        grafo.NovoVertice(nova.Nome);
+                        listaCidade.Insert(nova);
+                    }
+                    break;
+
+                case REQUEST_CAMINHO: break;
+            }
         }
 
         private void LerArquivos(){
@@ -89,7 +117,7 @@ namespace apCaminhos
         {
             
         }
-
+        
         /*
          var linearLayout = new LinearLayout(this);
 linearLayout.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);

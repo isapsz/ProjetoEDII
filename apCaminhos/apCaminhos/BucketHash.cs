@@ -2,27 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 
-class BucketHash<T> where T : IBucketHash, IComparable<T>
+class BucketHash
 {
-    private const int SIZE = 17;
-    ListaSimples<T>[] data;
+    private const int SIZE = 103;
+    ListaSimples<Cidade>[] data;
     public BucketHash()
     {
-        data = new ListaSimples<T>[SIZE];
+        data = new ListaSimples<Cidade>[SIZE];
         for (int i = 0; i < SIZE; i++)
-            data[i] = new ListaSimples<T>();
+            data[i] = new ListaSimples<Cidade>();
+    }
+    protected int Hash(Cidade c)
+    {
+        long tot = 0;
+        char[] charray;
+        charray =c.Nome.ToUpper().ToCharArray();
+        for (int i = 0; i <= c.Nome.Length - 1; i++)
+            tot += 37 * tot + (int)charray[i];
+        tot = tot % data.GetUpperBound(0);
+        if (tot < 0)
+            tot += data.GetUpperBound(0);
+        return (int)tot;
     }
 
-    public void Insert(T item)
+    public void Insert(Cidade item)
     {
-        int hash_value = item.HashCode();
+        int hash_value = Hash(item);
+        
         if (!data[hash_value].ExisteDado(item))
             data[hash_value].InserirEmOrdem(item);
     }
 
-    public bool Remove(T item)
+    public bool Remove(Cidade item)
     {
-        int hash_value = item.HashCode();
+        int hash_value = Hash(item);
         if (data[hash_value].ExisteDado(item))
         {
             data[hash_value].Remover(item);
@@ -31,13 +44,13 @@ class BucketHash<T> where T : IBucketHash, IComparable<T>
         return false;
     }
     
-    public T this[T procurado]
+    public Cidade this[Cidade procurado]
     {
         get {
-            if(data[procurado.HashCode()].ExisteDado(procurado))
+            if(data[Hash(procurado)].ExisteDado(procurado))
               return procurado;
 
-            return default(T);
+            return default(Cidade);
         }
     }
 }

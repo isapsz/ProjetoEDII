@@ -87,7 +87,7 @@ class Caminho  : IComparable<Caminho>
         get => origem;
         set
         {
-            if(string.IsNullOrWhiteSpace(value))
+            if(!string.IsNullOrWhiteSpace(value))
             origem = value;
         }
     }
@@ -133,8 +133,8 @@ class Caminho  : IComparable<Caminho>
             {
                 string linha = arq.ReadLine();
 
-                ret = new Caminho(linha.Substring(inicioOrigem, tamanhoOrigem),
-                                  linha.Substring(inicioDestino, tamanhoDestino),
+                ret = new Caminho(linha.Substring(inicioOrigem, tamanhoOrigem).Trim(),
+                                  linha.Substring(inicioDestino, tamanhoDestino).Trim(),
                                   int.Parse(linha.Substring(inicioDistancia,tamanhoDistancia)),
                                   int.Parse(linha.Substring(inicioTempo)));
             }

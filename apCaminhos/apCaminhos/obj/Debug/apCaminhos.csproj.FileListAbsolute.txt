@@ -29,7 +29,12 @@ C:\Users\u18198\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\upl
 C:\Users\u18198\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\apCaminhos.csprojResolveAssemblyReference.cache
 C:\Users\u18198\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll.mdb
 C:\Users\u18198\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\android\assets\apCaminhos.dll.mdb
-C:\Users\u18198\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\apCaminhos.csprojResolveAssemblyReference.cache
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\res\drawable\mapaespanhaportugal.jpg
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll.mdb
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\android\assets\apCaminhos.dll.mdb
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\res\layout\inclusaoactivity.xml
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll
 bin\Debug\Mono.Android.pdb
 bin\Debug\mscorlib.pdb
 bin\Debug\System.Core.pdb
