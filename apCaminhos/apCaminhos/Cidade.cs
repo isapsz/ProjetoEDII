@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class Cidade : IComparable<Cidade>, IBucketHash
+public class Cidade : IComparable<Cidade>, IBucketHash
 {
     /*
      Atributos inteiros constantes que armazenam os inicios e tamanhos de cada um dos atributos da classe quando estes

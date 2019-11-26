@@ -66,6 +66,7 @@
     <Compile Include="IStack.cs" />
     <Compile Include="ListaSimples.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Mapa.cs" />
     <Compile Include="NoLista.cs" />
     <Compile Include="PilhaLista.cs" />
     <Compile Include="PilhaVaziaException.cs" />

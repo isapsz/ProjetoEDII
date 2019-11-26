@@ -4,6 +4,8 @@ using Android.OS;
 using System.IO;
 using Android.Content.Res;
 using System;
+using Android.Views;
+using Android.Graphics;
 
 namespace apCaminhos
 {
@@ -11,11 +13,11 @@ namespace apCaminhos
     public class MainActivity : Activity
     {
         Button btnMaisCidade, btnMaisCaminho, btnBuscar;
-        ImageView imgMapa;
+        View imgMapa;
         EditText edtOrigem, edtDestino;
         Grafo grafo;
         BucketHash<Cidade> listaCidade;
-
+        Mapa mapa;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -26,15 +28,15 @@ namespace apCaminhos
             btnMaisCaminho = FindViewById<Button>(Resource.Id.btnCaminho);
             btnMaisCidade = FindViewById<Button>(Resource.Id.btnCidade);
             btnBuscar = FindViewById<Button>(Resource.Id.btnBuscar);
-            imgMapa = FindViewById<ImageView>(Resource.Id.img);
+            imgMapa = FindViewById<View>(Resource.Id.img);
             edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
             edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
-
+            
             btnBuscar.Click += (o, e) => {
                 Cidade origem = listaCidade[new Cidade(edtOrigem.Text)];
                 Cidade destino = listaCidade[new Cidade(edtDestino.Text)];
                 
-                DesenharCaminho();
+                DesenharCaminho(origem.Id, destino.Id);
             };
 
             btnMaisCaminho.Click += (o, e) =>{
@@ -45,7 +47,6 @@ namespace apCaminhos
                 IncluirNoArquivo();
             };
 
-
             LerArquivos();
         }
 
@@ -54,7 +55,9 @@ namespace apCaminhos
             string caminho = grafo.Caminho(origem, destino);
         }
 
-        private void IncluirNoArquivo(){
+        private void IncluirNoArquivo()
+        {
+          
         }
 
         private void LerArquivos(){
@@ -82,10 +85,9 @@ namespace apCaminhos
             base.OnStop();
         }
 
-        private void EscreverArquivos(){
-
-
-
+        private void EscreverArquivos()
+        {
+            
         }
 
         /*
