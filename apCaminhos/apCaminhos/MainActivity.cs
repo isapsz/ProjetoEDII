@@ -16,12 +16,14 @@ namespace apCaminhos
     {
         const int REQUEST_CIDADE = 1;
         const int REQUEST_CAMINHO = 2;
+
         Button btnMaisCidade, btnMaisCaminho, btnBuscar;
         View imgMapa;
         EditText edtOrigem, edtDestino;
         Grafo grafo;
         BucketHash listaCidade;
         Canvas canvas;
+        RadioButton rbTempo, rbDistancia;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -36,17 +38,17 @@ namespace apCaminhos
             imgMapa = FindViewById<View>(Resource.Id.img);
             edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
             edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
-
-            /*i
-            Paint paint = new Paint();
-            canvas = new Canvas(this);
-            canvas.DrawCircle(origem.CoordenadaX * canvas.Width, origem.CoordenadaY * canvas.Height, 25, paint);*/
+            rbDistancia = FindViewById<RadioButton>(Resource.Id.rbDistancia);
+            rbTempo = FindViewById<RadioButton>(Resource.Id.rbTempo);
+            
+           
+            
 
             btnBuscar.Click += (o, e) => {
                 Cidade origem = listaCidade[new Cidade(edtOrigem.Text)];
                 Cidade destino = listaCidade[new Cidade(edtDestino.Text)];
                 
-                DesenharCaminho(origem.Id, destino.Id);
+                DesenharCaminho(origem.Id, destino.Id, (rbDistancia.Checked)? Grafo.Pesos.distancia : Grafo.Pesos.tempo);
             };
 
             btnMaisCaminho.Click += (o, e) =>{
@@ -60,9 +62,14 @@ namespace apCaminhos
             LerArquivos();
         }
 
-        private void DesenharCaminho(int origem, int destino)
+        private void RbDistancia_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
-            string caminho = grafo.Caminho(origem, destino);
+            throw new NotImplementedException();
+        }
+
+        private void DesenharCaminho(int origem, int destino, Grafo.Pesos peso)
+        {
+            string caminho = grafo.Caminho(origem, destino, peso);
         }
 
         private void IncluirNoArquivo()
@@ -101,7 +108,7 @@ namespace apCaminhos
             leitor = new StreamReader(Assets.Open("GrafoTremEspanhaPortugal.txt"));
             while(!leitor.EndOfStream){
                 Caminho caminho = Caminho.LerRegistro(leitor);
-                grafo.IncluirValorAresta(caminho.Origem, caminho.Destino, caminho.Distancia);
+                grafo.NovaAresta(listaCidade[caminho.Origem].Id, listaCidade[caminho.Destino].Id, caminho.Distancia, caminho.Tempo);
             }
 
             leitor.Close();
@@ -118,210 +125,8 @@ namespace apCaminhos
             
         }
         
-        /*
-         var linearLayout = new LinearLayout(this);
-linearLayout.LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
 
-var scrollView = new ScrollView(this);
-scrollView.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
-
-scrollView.AddView(linearLayout);
-
-SetContentView(scrollView);
-        
-        const int TAMANHOX = 4096, TAMANHOY = 2048;   
-        
-      
-        int selecionado;
-
-       
-        List<PilhaLista<Caminho>> listaCaminhos;
-
-      
-        Arvore<Cidade> arvore;
-
-
-        Grafo grafo;
-
-        
-        private void BtnBuscar_Click(object sender, EventArgs e)
-        {
-            if (lsbOrigem.SelectedIndex >= 0 && lsbDestino.SelectedIndex >= 0)
-            {
-                int origem = int.Parse(lsbOrigem.SelectedItem.ToString().Substring(0, 2));
-
-                int destino = int.Parse(lsbDestino.SelectedItem.ToString().Substring(0, 2));
-
-                if (destino == origem)
-                    MessageBox.Show("Selecione cidades diferentes!", "Viagem inválida", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                else
-                {
-                    AcharCaminhos(origem, destino);
-
-                    dgvMelhorCaminho.RowCount = dgvMelhorCaminho.ColumnCount = dgvCaminhoEncontrado.RowCount = dgvCaminhoEncontrado.ColumnCount = 0;
-
-                    if (listaCaminhos.Count != 0)
-                        MostrarCaminhos();
-                    else
-                    {
-                        selecionado = -1;
-                        pbMapa.Invalidate();
-                        dgvMelhorCaminho.RowCount = dgvMelhorCaminho.ColumnCount = 0;
-                        MessageBox.Show("Não existe caminho entre essas cidades!", "Viagem inválida", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-
-       
-     
-        private void AcharCaminhos(int origem, int destino)
-        {
-            listaCaminhos = new List<PilhaLista<Caminho>>();
-
-            int disAtual = 0, tempoAtual = 0;
-            PilhaLista<Caminho> caminhoAtual = new PilhaLista<Caminho>();
-
-            PilhaLista<Caminho> aux = new PilhaLista<Caminho>();
-
-            bool[] jaPassou = new bool[23];
-
-            for (int i = 0; i < 23; i++)
-                jaPassou[i] = false;
-
-            int atual = origem;
-
-            bool acabou = false;
-
-            while (!acabou)
-            {
-                int tamanhoAnterior = aux.Tamanho();
-                for (int i = 0; i < 23; i++)
-                    if (grafo[atual, i] != 0 && !jaPassou[i])
-                        aux.Empilhar(new Caminho(atual, i, grafo[atual, i]));
-
-                if (!aux.EstaVazia() && tamanhoAnterior == aux.Tamanho())
-                {
-                    Caminho cam = caminhoAtual.Desempilhar();
-                    disAtual -= cam.Distancia;
-                    tempoAtual -=cam.Tempo;
-                    jaPassou[cam.IdDestino] = true;
-                }
-
-                if (aux.EstaVazia())
-                    acabou = true;
-                else
-                {
-                    Caminho c = aux.Desempilhar();
-
-                    while (!caminhoAtual.EstaVazia() && caminhoAtual.OTopo().IdDestino != c.IdOrigem)
-                    {
-                        Caminho cam = caminhoAtual.Desempilhar();
-                        tempoAtual -=cam.Tempo;
-                        disAtual -= cam.Distancia;
-                        jaPassou[cam.IdDestino] = false;
-                    }
-
-                    caminhoAtual.Empilhar(c);
-                    tempoAtual +=c.Tempo;
-                    disAtual += c.Distancia;
-
-                    if (c.IdDestino != destino)
-                    {
-                        jaPassou[c.IdOrigem] = true;
-                        atual = c.IdDestino;
-                    }
-                    else
-                    {
-                        listaCaminhos.Add(caminhoAtual.Clone());
-                      
-                        if (aux.EstaVazia())
-                            acabou = true;
-                        else
-                        {
-                            Caminho retorno = aux.Desempilhar();
-                     
-                            while (!caminhoAtual.EstaVazia() && caminhoAtual.OTopo().IdDestino != retorno.IdOrigem)
-                            {
-                                Caminho cam = caminhoAtual.Desempilhar();
-                                disAtual -= cam.Distancia;
-                                tempoAtual -=cam.Tempo;
-                                jaPassou[cam.IdDestino] = false;
-                            }
-
-                            caminhoAtual.Empilhar(retorno);
-                            jaPassou[retorno.IdDestino] = true;
-                            disAtual += retorno.Distancia;
-                            tempoAtual +=retorno.Tempo;
-
-                            while(retorno.IdDestino == destino && !acabou)
-                            {
-                                listaCaminhos.Add(caminhoAtual.Clone());
-
-                                if (!aux.EstaVazia())
-                                {
-                                    retorno = aux.Desempilhar();
-                                    while (!caminhoAtual.EstaVazia() && caminhoAtual.OTopo().IdDestino != retorno.IdOrigem)
-                                    {
-                                        Caminho cam = caminhoAtual.Desempilhar();
-                                        disAtual -= cam.Distancia;
-                                        tempoAtual -=cam.Tempo;
-                                        jaPassou[cam.IdDestino] = false;
-                                    }
-
-                                    caminhoAtual.Empilhar(retorno);
-                                    disAtual += retorno.Distancia;
-                                    tempoAtual -=retorno.Tempo;
-                                }
-                                else
-                                    acabou = true;
-                            }
-
-                            atual = retorno.IdDestino;
-                        }
-                    }
-                }
-            }
-        }
-
-       
-        private void MostrarCaminhos()
-        {
-            foreach (PilhaLista<Caminho> caminho in listaCaminhos)
-            {
-                int posicao = 0;
-                PilhaLista<Caminho> aux = caminho.Clone();
-                aux.Inverter();
-
-                if (dgvCaminhoEncontrado.RowCount == menor)
-                {
-                    dgvMelhorCaminho.RowCount++;
-                    dgvMelhorCaminho.ColumnCount = aux.Tamanho() + 1;
-                }
-
-                dgvCaminhoEncontrado.RowCount++;
-
-
-                if (dgvCaminhoEncontrado.ColumnCount <= aux.Tamanho())
-                    dgvCaminhoEncontrado.ColumnCount = aux.Tamanho() + 1;
-
-                while (!aux.EstaVazia())
-                {
-                    Caminho c = aux.Desempilhar();
-                    if (dgvCaminhoEncontrado.RowCount - 1 == menor)
-                        ExibirDgv(dgvMelhorCaminho, c, posicao);
-
-                    ExibirDgv(dgvCaminhoEncontrado, c, posicao);
-                    posicao++;
-                }
-            }
-
-            selecionado = menor;
-            dgvCaminhoEncontrado.Rows[selecionado].Selected = true;
-            pbMapa.Invalidate();
-        }
-
+      /*
      
           
         private void pbMapa_Paint(object sender, PaintEventArgs e)

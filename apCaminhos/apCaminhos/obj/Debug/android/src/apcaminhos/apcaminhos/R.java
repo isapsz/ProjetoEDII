@@ -14,17 +14,19 @@ public final class R {
         public static final int mapaespanhaportugal=0x7f020000;
     }
     public static final class id {
-        public static final int btnBuscar=0x7f050008;
-        public static final int btnCaminho=0x7f05000b;
-        public static final int btnCidade=0x7f05000a;
+        public static final int btnBuscar=0x7f050007;
+        public static final int btnCaminho=0x7f05000a;
+        public static final int btnCidade=0x7f050009;
         public static final int btnSalvar=0x7f050002;
-        public static final int edtDestino=0x7f050007;
+        public static final int edtDestino=0x7f050006;
         public static final int edtNome=0x7f050001;
-        public static final int edtOrigem=0x7f050005;
-        public static final int img=0x7f050009;
-        public static final int linearLayout1=0x7f050003;
-        public static final int tvDestino=0x7f050006;
-        public static final int tvOrigem=0x7f050004;
+        public static final int edtOrigem=0x7f050004;
+        public static final int img=0x7f050008;
+        public static final int radioGroup1=0x7f05000b;
+        public static final int rbDistancia=0x7f05000c;
+        public static final int rbTempo=0x7f05000d;
+        public static final int tvDestino=0x7f050005;
+        public static final int tvOrigem=0x7f050003;
         public static final int txtNome=0x7f050000;
     }
     public static final class layout {

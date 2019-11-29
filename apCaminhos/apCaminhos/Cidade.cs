@@ -119,7 +119,7 @@ public class Cidade : IComparable<Cidade>
     public Cidade(string nome)
     {
         coordenadaX = coordenadaY = id = -1;
-        nome = nome;
+        this.nome = nome;
     }
 
     /*
@@ -157,7 +157,10 @@ public class Cidade : IComparable<Cidade>
     */
     public int CompareTo(Cidade outra)
     {
-        return this.id - outra.Id;
+        if(this.id != -1 && outra.id != -1)
+            return this.id - outra.Id;
+
+        return this.nome.CompareTo(outra.nome);
     }
 
     /*

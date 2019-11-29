@@ -12,12 +12,12 @@ class BucketHash
         for (int i = 0; i < SIZE; i++)
             data[i] = new ListaSimples<Cidade>();
     }
-    protected int Hash(Cidade c)
+    protected int Hash(string c)
     {
         long tot = 0;
         char[] charray;
-        charray =c.Nome.ToUpper().ToCharArray();
-        for (int i = 0; i <= c.Nome.Length - 1; i++)
+        charray = c.ToUpper().ToCharArray();
+        for (int i = 0; i <= c.Length - 1; i++)
             tot += 37 * tot + (int)charray[i];
         tot = tot % data.GetUpperBound(0);
         if (tot < 0)
@@ -27,7 +27,7 @@ class BucketHash
 
     public void Insert(Cidade item)
     {
-        int hash_value = Hash(item);
+        int hash_value = Hash(item.Nome);
         
         if (!data[hash_value].ExisteDado(item))
             data[hash_value].InserirEmOrdem(item);
@@ -35,7 +35,7 @@ class BucketHash
 
     public bool Remove(Cidade item)
     {
-        int hash_value = Hash(item);
+        int hash_value = Hash(item.Nome);
         if (data[hash_value].ExisteDado(item))
         {
             data[hash_value].Remover(item);
@@ -47,10 +47,19 @@ class BucketHash
     public Cidade this[Cidade procurado]
     {
         get {
-            if(data[Hash(procurado)].ExisteDado(procurado))
+            if(data[Hash(procurado.Nome)].ExisteDado(procurado))
               return procurado;
 
             return default(Cidade);
         }
     }
+
+    public Cidade this[string nome]
+    {
+        get
+        {
+            return data[Hash(nome)].Existe(new Cidade(nome));
+        }
+    }
+
 }

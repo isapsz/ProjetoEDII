@@ -3,8 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:id="@+id/linearLayout1">
+    android:background="@android:color/background_light">
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -71,6 +70,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/btnCaminho" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/radioGroup1">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Distância"
+                        android:id="@+id/rbDistancia"
+                        android:textColor="@android:color/background_dark" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tempo"
+                        android:id="@+id/rbTempo"
+                        android:textColor="@android:color/background_dark" />
+                </RadioGroup>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -3,30 +3,52 @@ using System.Collections.Generic;
 
 class Grafo
 {
+    public enum Pesos {tempo, distancia};
+
+    private class Peso
+    {
+        int distancia, tempo;
+
+        public Peso(int distancia, int tempo)
+        {
+            Distancia = distancia;
+            Tempo = tempo;
+        }
+
+        public int Distancia { get => distancia; set => distancia = value; }
+        public int Tempo { get => tempo; set => tempo = value; }
+
+    }
+
     private const int NUM_VERTICES = 100;
     private Vertice[] vertices;
-    private int[,] adjMatrix;
+    private Peso[,] adjMatriz;
     int numVerts;
+    private Peso qual; 
 
     /// DJIKSTRA
     DistOriginal[] percurso;
-    int infinity = 1000000;
+    int infinity = int.MaxValue;
     int verticeAtual;   // global usada para indicar o vértice atualmente sendo visitado 
     int doInicioAteAtual;   // global usada para ajustar menor caminho com Djikstra
     int nTree;
 
-    public int NumVerts { get => numVerts;}
+    public int NumVerts {
+        get => numVerts;
+    }
 
     public Grafo()
     {
         vertices = new Vertice[NUM_VERTICES];
-        adjMatrix = new int[NUM_VERTICES, NUM_VERTICES];
+        adjMatriz = new Peso[NUM_VERTICES, NUM_VERTICES];
         numVerts = 0;
         nTree = 0;
 
         for (int j = 0; j < NUM_VERTICES; j++)      // zera toda a matriz
             for (int k = 0; k < NUM_VERTICES; k++)
-                adjMatrix[j, k] = infinity; // distância tão grande que não existe
+            {
+                adjMatriz[j, k] = new Peso(infinity, infinity);
+            }
 
         percurso = new DistOriginal[NUM_VERTICES];
     }
@@ -37,51 +59,25 @@ class Grafo
         numVerts++;
     }
 
-    public void NovaAresta(int origem, int destino)
-    {
-        adjMatrix[origem, destino] = 1;
-    }
-
-    public void IncluirValorAresta(string origem, string destino, int dist){
-        int o = -1, d = -1;
+    /*public void IncluirValorAresta(int idOrigem,int idDestino, int distancia, int tempo){
+       int o = -1, d = -1;
         for (int i = 0; i < numVerts; i++)
-            if (vertices[i].rotulo.Equals(origem))
+            if (vertices[i].rotulo.Equals(caminho.Origem))
                 o = i;
-            else if (vertices[i].rotulo.Equals(destino))
+            else if (vertices[i].rotulo.Equals(caminho.Destino))
                 d = i;
-        NovaAresta(o, d, dist);
-    }
+        NovaAresta(caminho);
+    }*/
 
 
-    public void NovaAresta(int origem, int destino, int peso)
+    public void NovaAresta(int idOrigem, int idDestino, int distancia, int tempo)
     {
-        if (origem < 0 || destino < 0 || origem > vertices.Length - 1 || destino > vertices.Length - 1)
+        if (idOrigem < 0 || idDestino < 0 || idOrigem > vertices.Length - 1 || idDestino > vertices.Length - 1)
             throw new Exception("Origem ou Destino Inválidos!!!");
-        adjMatrix[origem, destino] = peso;
+        adjMatriz[idOrigem, idDestino].Distancia = distancia;
+        adjMatriz[idOrigem, idDestino].Tempo = tempo;
     }
-
-    public void ExibirVertice(int v)
-    {
-        Console.Write(vertices[v].rotulo + " ");
-    }
-
-    public int SemSucessores() 	// encontra e retorna a linha de um vértice sem sucessores
-    {
-        bool temAresta;
-        for (int linha = 0; linha < numVerts; linha++)
-        {
-            temAresta = false;
-            for (int col = 0; col < numVerts; col++)
-                if (adjMatrix[linha, col] != infinity)
-                {
-                    temAresta = true;
-                    break;
-                }
-            if (!temAresta)
-                return linha;
-        }
-        return -1;
-    }
+    
 
     public void removerVertice(int vert)
     {
@@ -102,122 +98,17 @@ class Grafo
     {
         if (row != numVerts - 1)
             for (int col = 0; col < length; col++)
-                adjMatrix[row, col] = adjMatrix[row + 1, col];  // desloca para excluir
+                adjMatriz[row, col] = adjMatriz[row + 1, col];  // desloca para excluir
     }
     private void moverColunas(int col, int length)
     {
         if (col != numVerts - 1)
             for (int row = 0; row < length; row++)
-                adjMatrix[row, col] = adjMatrix[row, col + 1]; // desloca para excluir
+                adjMatriz[row, col] = adjMatriz[row, col + 1]; // desloca para excluir
     }
+    
 
-    public String OrdenacaoTopologica()
-    {
-        Stack<String> gPilha = new Stack<String>(); // para guardar a sequência de vértices
-        int origVerts = numVerts;
-        while (numVerts > 0)
-        {
-            int currVertex = SemSucessores();
-            if (currVertex == -1)
-                return "Erro: grafo possui ciclos.";
-            gPilha.Push(vertices[currVertex].rotulo);   // empilha vértice
-            removerVertice(currVertex);
-        }
-        String resultado = "Sequência da Ordenação Topológica: ";
-        while (gPilha.Count > 0)
-            resultado += gPilha.Pop() + " ";    // desempilha para exibir
-        return resultado;
-    }
-
-    private int ObterVerticeAdjacenteNaoVisitado(int v)
-    {
-        for (int j = 0; j <= numVerts - 1; j++)
-            if ((adjMatrix[v, j] != infinity) && (!vertices[j].foiVisitado))
-                return j;
-        return -1;
-    }
-
-    public void PercursoEmProfundidade()
-    {
-        Stack<int> gPilha = new Stack<int>(); 
-        vertices[0].foiVisitado = true;
-        ExibirVertice(0);
-        gPilha.Push(0);
-        int v;
-        while (gPilha.Count > 0)
-        {
-            v = ObterVerticeAdjacenteNaoVisitado(gPilha.Peek());
-            if (v == -1)
-                gPilha.Pop();
-            else
-            {
-                vertices[v].foiVisitado = true;
-                gPilha.Push(v);
-            }
-        }
-        for (int j = 0; j <= numVerts - 1; j++)
-            vertices[j].foiVisitado = false;
-    }
-
-
-    public void PercursoEmProfundidadeRec(int[,] adjMatrix, int numVerts, int part)
-    {
-        int i;
-        //fazer algo aqui
-        vertices[part].foiVisitado = true;
-        for (i = 0; i < numVerts; ++i)
-            if (adjMatrix[part, i] != infinity && !vertices[i].foiVisitado)
-                PercursoEmProfundidadeRec(adjMatrix, numVerts, i);
-    }
-
-    public void percursoPorLargura()
-    {
-        Queue<int> gQueue = new Queue<int>();
-        vertices[0].foiVisitado = true;
-        ExibirVertice(0);
-        gQueue.Enqueue(0);
-        int vert1, vert2;
-        while (gQueue.Count >0 )
-        {
-            vert1 = gQueue.Dequeue();
-            vert2 = ObterVerticeAdjacenteNaoVisitado(vert1);
-            while (vert2 != -1)
-            {
-                vertices[vert2].foiVisitado = true;
-                ExibirVertice(vert2);
-                gQueue.Enqueue(vert2);
-                vert2 = ObterVerticeAdjacenteNaoVisitado(vert1);
-            }
-        }
-        for (int i = 0; i < numVerts; i++)
-            vertices[i].foiVisitado = false;
-    }
-
-    public void ArvoreGeradoraMinima(int primeiro)
-    {
-        Stack<int> gPilha = new Stack<int>(); // para guardar a sequência de vértices
-        vertices[primeiro].foiVisitado = true;
-        gPilha.Push(primeiro);
-        int currVertex, ver;
-        while (gPilha.Count > 0)
-        {
-            currVertex = gPilha.Peek();
-            ver = ObterVerticeAdjacenteNaoVisitado(currVertex);
-            if (ver == -1)
-                gPilha.Pop();
-            else
-            {
-                vertices[ver].foiVisitado = true;
-                gPilha.Push(ver);
-                ExibirVertice(currVertex);
-                ExibirVertice(ver);
-            }
-        }
-        for (int j = 0; j <= numVerts - 1; j++)
-            vertices[j].foiVisitado = false;
-    }
-
-    public string Caminho(int inicioDoPercurso, int finalDoPercurso)
+    public string Caminho(int inicioDoPercurso, int finalDoPercurso, Pesos opcao)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
@@ -227,7 +118,7 @@ class Grafo
         {
             // anotamos no vetor percurso a distância entre o inicioDoPercurso e cada vértice
             // se não há ligação direta, o valor da distância será infinity
-            int tempDist = adjMatrix[inicioDoPercurso, j];
+            int tempDist = (opcao == Pesos.distancia) ? adjMatriz[inicioDoPercurso, j].Distancia : adjMatriz[inicioDoPercurso, j].Tempo;
             percurso[j] = new DistOriginal(inicioDoPercurso, tempDist);
         }
 
@@ -247,7 +138,7 @@ class Grafo
 
             // visitamos o vértice com a menor distância desde o inicioDoPercurso
             vertices[verticeAtual].foiVisitado = true;
-            AjustarMenorCaminho();
+            AjustarMenorCaminho(opcao);
         }
 
         return ExibirPercursos(inicioDoPercurso, finalDoPercurso);
@@ -266,12 +157,12 @@ class Grafo
         return indiceDaMinima;
     }
 
-    public void AjustarMenorCaminho()
+    public void AjustarMenorCaminho(Pesos opcao = Pesos.distancia)
     {
         for (int coluna = 0; coluna < numVerts; coluna++)
             if (!vertices[coluna].foiVisitado)       // para cada vértice ainda não visitado
             {
-                int atualAteMargem = adjMatrix[verticeAtual, coluna];
+                int atualAteMargem = (opcao == Pesos.distancia) ? adjMatriz[verticeAtual, coluna].Distancia : adjMatriz[verticeAtual, coluna].Tempo;
 
                 int doInicioAteMargem = doInicioAteAtual + atualAteMargem;
 
@@ -280,24 +171,8 @@ class Grafo
                 {
                     percurso[coluna].verticePai = verticeAtual;
                     percurso[coluna].distancia = doInicioAteMargem;
-                    ExibirTabela();
                 }
             }
-    }
-
-    public void ExibirTabela()
-    {
-        string dist = "";
-        for (int i = 0; i < numVerts; i++)
-        {
-            if (percurso[i].distancia == infinity)
-                dist = "inf";
-            else
-                dist = Convert.ToString(percurso[i].distancia);
-
-            ///vertices[i].rotulo + "\t" + vertices[i].foiVisitado +
-                 // "\t\t" + dist + "\t" + vertices[percurso[i].verticePai].rotulo);
-        }
     }
 
     public string ExibirPercursos(int inicioDoPercurso, int finalDoPercurso)

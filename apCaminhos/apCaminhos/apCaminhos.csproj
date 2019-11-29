@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="BucketHash.cs" />
     <Compile Include="Caminho.cs" />
-    <Compile Include="CArray.cs" />
     <Compile Include="Cidade.cs" />
     <Compile Include="DistOriginal.cs" />
     <Compile Include="Grafo.cs" />
