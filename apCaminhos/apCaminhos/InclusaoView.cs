@@ -48,7 +48,7 @@ namespace apCaminhos
 
             btnSalvar.Click += (s, e) =>
             {
-                if (string.IsNullOrWhiteSpace(edtCidade.Text))
+                if (string.IsNullOrWhiteSpace(edtCidade.Text.ToString()))
                     Toast.MakeText(ApplicationContext, "Preencha o nome da cidade.", ToastLength.Short).Show();
                 else
                     if (x == -1 || y == -1)
@@ -57,9 +57,8 @@ namespace apCaminhos
                 else
                 {
                     nome = edtCidade.Text;
-                    Cidade nova = new Cidade(-1, nome, x, y);
                     Intent i = new Intent();
-                    i.PutExtra("nome",nova.Nome);
+                    i.PutExtra("nome", nome);
                     i.PutExtra("x", x);
                     i.PutExtra("y", y);
                     SetResult(Result.Ok, i);

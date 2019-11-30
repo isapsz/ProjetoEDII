@@ -16,7 +16,7 @@ namespace apCaminhos
     public class InclusaoCaminhoActivity : Activity
     {
         Button btnAdicionarCaminho;
-        EditText edtOrigem, edtDestino;
+        EditText edtOrigem, edtDestino, edtDistancia, edtTempo;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,6 +27,22 @@ namespace apCaminhos
             //btnAdicionarCaminho = FindViewById<Button>(Resource.Id.btnAdicionar);
             //edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
             //edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
+
+            btnAdicionarCaminho.Click += (s, e) =>
+            {
+                if (string.IsNullOrWhiteSpace(edtOrigem.Text) || string.IsNullOrWhiteSpace(edtDestino.Text)|| string.IsNullOrWhiteSpace(edtDistancia.Text) || string.IsNullOrWhiteSpace(edtTempo.Text))
+                    Toast.MakeText(ApplicationContext, "Preencha o nome das cidades de origem e destino.", ToastLength.Short).Show();
+                else
+                {
+                    Intent i = new Intent();
+                    i.PutExtra("origem", edtOrigem.Text);
+                    i.PutExtra("destino", edtDestino.Text);
+                    i.PutExtra("distancia", int.Parse(edtDistancia.Text));
+                    i.PutExtra("tempo", int.Parse(edtTempo.Text));
+                    SetResult(Result.Ok, i);
+                    Finish();
+                }
+            };
         }
     }
 }

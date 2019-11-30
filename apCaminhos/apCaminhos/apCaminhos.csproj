@@ -69,6 +69,7 @@
     <Compile Include="NoLista.cs" />
     <Compile Include="PilhaLista.cs" />
     <Compile Include="PilhaVaziaException.cs" />
+    <Compile Include="InclusaoCaminhoActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vertice.cs" />
@@ -79,6 +80,9 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\InclusaoActivity.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\InclusaoCaminho.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

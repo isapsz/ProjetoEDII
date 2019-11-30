@@ -73,7 +73,7 @@ namespace apCaminhos
             if (request == REQUEST_CIDADE)
                 intent = new Intent(this, typeof(InclusaoView));
             else
-                intent = new Intent(this, typeof(InclusaoCiade));
+                intent = new Intent(this, typeof(InclusaoView));
             StartActivityForResult(intent, request);
         }
 
