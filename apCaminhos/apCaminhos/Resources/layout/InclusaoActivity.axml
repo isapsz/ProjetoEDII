@@ -3,28 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-    <TextView
-        android:text="Nome"
-        android:textSize="30dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtNome" />
-    <EditText
-        android:hint="Nome da cidade"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edtNome"
-        android:textColor="@android:color/background_dark" />
+        android:layout_height="match_parent">
+        <TextView
+            android:text="Nome"
+            android:textSize="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtNome" />
+        <EditText
+            android:hint="Nome da cidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edtNome"
+            android:textColor="@android:color/background_dark" />
     </LinearLayout>
     <TextView
-              android:text="Localize a cidade a ser inserida no mapa"
-              android:textSize="15dp"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
+        android:text="Localize a cidade a ser inserida no mapa"
+        android:textSize="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ImageView
         android:src="@drawable/mapaespanhaportugal"
         android:layout_width="match_parent"
@@ -34,4 +34,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSalvar" />
-  </LinearLayout>
+</LinearLayout>

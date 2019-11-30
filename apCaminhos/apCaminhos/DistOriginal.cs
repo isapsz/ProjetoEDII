@@ -1,10 +1,10 @@
 ﻿class DistOriginal
 {
-    public int distancia;
+    public int peso;
     public int verticePai;
-    public DistOriginal(int vp, int d)
+    public DistOriginal(int vp, int p)
     {
-        distancia = d;
+        peso = p;
         verticePai = vp;
     }
 }

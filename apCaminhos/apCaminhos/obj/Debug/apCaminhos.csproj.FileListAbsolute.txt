@@ -50,7 +50,6 @@ C:\Users\u18194\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\R.c
 C:\Users\u18194\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\uploadflags.txt
 C:\Users\u18194\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll.mdb
 C:\Users\u18194\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\android\assets\apCaminhos.dll.mdb
-C:\Users\u18194\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll
 bin\Debug\Mono.Android.pdb
 bin\Debug\mscorlib.pdb
 bin\Debug\System.Core.pdb

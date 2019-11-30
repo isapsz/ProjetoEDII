@@ -114,6 +114,7 @@ class Grafo
             vertices[j].foiVisitado = false;
 
         vertices[inicioDoPercurso].foiVisitado = true;
+
         for (int j = 0; j < numVerts; j++)
         {
             // anotamos no vetor percurso a distância entre o inicioDoPercurso e cada vértice
@@ -128,33 +129,32 @@ class Grafo
             int indiceDoMenor = ObterMenor();
 
             // e anotamos essa menor distância
-            int distanciaMinima = percurso[indiceDoMenor].distancia;
-
+            int distanciaMinima = percurso[indiceDoMenor].peso;
 
             // o vértice com a menor distância passa a ser o vértice atual
             // para compararmos com a distância calculada em AjustarMenorCaminho()
             verticeAtual = indiceDoMenor;
-            doInicioAteAtual = percurso[indiceDoMenor].distancia;
+            doInicioAteAtual = percurso[indiceDoMenor].peso;
 
             // visitamos o vértice com a menor distância desde o inicioDoPercurso
             vertices[verticeAtual].foiVisitado = true;
             AjustarMenorCaminho(opcao);
         }
 
-        return ExibirPercursos(inicioDoPercurso, finalDoPercurso);
+        return ExibirPercurso(inicioDoPercurso, finalDoPercurso);
     }
 
     public int ObterMenor()
     {
-        int distanciaMinima = infinity;
-        int indiceDaMinima = 0;
+        int pesoMinimo = infinity;
+        int indiceMenor = 0;
         for (int j = 0; j < numVerts; j++)
-            if (!(vertices[j].foiVisitado) && (percurso[j].distancia < distanciaMinima))
+            if (!(vertices[j].foiVisitado) && (percurso[j].peso < pesoMinimo))
             {
-                distanciaMinima = percurso[j].distancia;
-                indiceDaMinima = j;
+                pesoMinimo = percurso[j].peso;
+                indiceMenor = j;
             }
-        return indiceDaMinima;
+        return indiceMenor;
     }
 
     public void AjustarMenorCaminho(Pesos opcao = Pesos.distancia)
@@ -166,41 +166,35 @@ class Grafo
 
                 int doInicioAteMargem = doInicioAteAtual + atualAteMargem;
 
-                int distanciaDoCaminho = percurso[coluna].distancia;
+                int distanciaDoCaminho = percurso[coluna].peso;
+
                 if (doInicioAteMargem < distanciaDoCaminho)
                 {
                     percurso[coluna].verticePai = verticeAtual;
-                    percurso[coluna].distancia = doInicioAteMargem;
+                    percurso[coluna].peso = doInicioAteMargem;
                 }
             }
     }
 
-    public string ExibirPercursos(int inicioDoPercurso, int finalDoPercurso)
+
+    public string ExibirPercurso(int inicioDoPercurso, int finalDoPercurso)
     {
         string linha = "", resultado = "";
-        for (int j = 0; j < numVerts; j++)
-        {
-            linha += vertices[j].rotulo + "=";
-            if (percurso[j].distancia == infinity)
-                linha += "inf";
-            else
-                linha += percurso[j].distancia;
-            string pai = vertices[percurso[j].verticePai].rotulo;
-            linha += "(" + pai + ") ";
-        }
-        //lista.Items.Add("Caminho entre " + vertices[inicioDoPercurso].rotulo +
-                                  // " e " + vertices[finalDoPercurso].rotulo);
-       
 
-        int onde = finalDoPercurso;
+        resultado += "Caminho entre " + vertices[inicioDoPercurso].rotulo + " e " + vertices[finalDoPercurso].rotulo;
+
+        int onde = finalDoPercurso, anterior = 0, tempo= 0, distancia= 0;
         Stack<string> pilha = new Stack<string>();
 
-        int cont = 0;
         while (onde != inicioDoPercurso)
         {
+            anterior = onde;
             onde = percurso[onde].verticePai;
+
+            tempo += adjMatriz[onde, anterior].Tempo;
+            distancia += adjMatriz[onde, anterior].Distancia;
+
             pilha.Push(vertices[onde].rotulo);
-            cont++;
         }
 
         while (pilha.Count != 0)
@@ -210,11 +204,31 @@ class Grafo
                 resultado += " --> ";
         }
 
-        if ((cont == 1) && (percurso[finalDoPercurso].distancia == infinity))
+        if ((pilha.Count == 1) && (percurso[finalDoPercurso].peso == infinity))
             resultado = "Não há caminho";
         else
             resultado += " --> " + vertices[finalDoPercurso].rotulo;
+
+        resultado += "\nTempo: " + tempo + "Distancia: " + distancia+ "km";
+
         return resultado;
+
+        /* for (int j = 0; j < numVerts; j++)
+         {
+             linha += vertices[j].rotulo + "=";
+             if (percurso[j].peso == infinity)
+                 linha += "inf";
+             else
+                 linha += percurso[j].peso;
+             string pai = vertices[percurso[j].verticePai].rotulo;
+             linha += "(" + pai + ") ";
+         }*/
+
+
+        //lista.Items.Add("Caminho entre " + vertices[inicioDoPercurso].rotulo +
+        // " e " + vertices[finalDoPercurso].rotulo);
+
+
     }
 
 
