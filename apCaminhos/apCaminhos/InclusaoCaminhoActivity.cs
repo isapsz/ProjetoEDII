@@ -23,6 +23,10 @@ namespace apCaminhos
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.InclusaoCaminho);
             // Create your application here
+
+            //btnAdicionarCaminho = FindViewById<Button>(Resource.Id.btnAdicionar);
+            //edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
+            //edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
         }
     }
 }
