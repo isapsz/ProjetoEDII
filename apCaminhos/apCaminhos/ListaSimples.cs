@@ -1,17 +1,15 @@
 ﻿using System;
+using System.IO;
 
-public class ListaSimples<Dado> where Dado : IComparable<Dado>
+public class ListaSimples<Dado> where Dado : IComparable<Dado>, IGravarEmArquivo
 {
     private NoLista<Dado> primeiro, ultimo, anterior, atual;
     int quantosNos;
-
-    private bool primeiroAcessoDoPercurso;
 
     public ListaSimples()
     {
         primeiro = ultimo = anterior = atual = null;
         quantosNos = 0;
-        primeiroAcessoDoPercurso = false;
     }
     public void percorrerLista()
     {
@@ -21,6 +19,21 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>
             Console.WriteLine(atual.Info);
             atual = atual.Prox;
         }
+    }
+
+    public void ParaArquivo(StreamWriter escritor)
+    {
+        escritor.BaseStream.Seek(0, SeekOrigin.End);
+
+        atual = primeiro;
+
+        while (atual != null)
+        {
+            escritor.WriteLine(atual.Info.ParaArquivo());
+            atual = atual.Prox;
+        }
+
+        escritor.Close();
     }
 
     public bool EstaVazia

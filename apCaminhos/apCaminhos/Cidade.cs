@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
 
-public class Cidade : IComparable<Cidade>
+public class Cidade : IComparable<Cidade>, IGravarEmArquivo
 {
     /*
      Atributos inteiros constantes que armazenam os inicios e tamanhos de cada um dos atributos da classe quando estes
@@ -171,5 +172,13 @@ public class Cidade : IComparable<Cidade>
     {
         return $"{id:00}\n\n{nome}";
     }
-    
+
+    /*
+     Método que gera uma representação textual para arquivos de uma cidade.
+     @return uma string com a representação da classe.
+   */
+    public string ParaArquivo()
+    {
+        return $"{id.ToString().PadLeft(2)}{nome.PadRight(16)}{coordenadaX: 0,000} {coordenadaY: 0,000}";
+    }
 }

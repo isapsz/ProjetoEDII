@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 //ISABELA PAULINO DE SOUZA 18189, GUSTAVO FERRREIRA GITZEL 18194 e AMABILE PIETROBON FERREIRA 18198
 
-class Caminho  : IComparable<Caminho>
+class Caminho  : IComparable<Caminho>, IGravarEmArquivo
 {
     /*
      Atributos inteiros constantes que armazenam os inicios e tamanhos de cada um dos atributos da classe quando estes
@@ -18,8 +18,9 @@ class Caminho  : IComparable<Caminho>
               inicioDestino = inicioOrigem + tamanhoOrigem,
               tamanhoDestino = 16,
               inicioDistancia = inicioDestino + tamanhoDestino,
-              tamanhoDistancia = 5,
+              tamanhoDistancia = 3,
               inicioTempo = inicioDistancia + tamanhoDistancia;
+             
 
 
     /*
@@ -158,6 +159,11 @@ class Caminho  : IComparable<Caminho>
             return 0;
 
         return this.distancia - other.distancia;
+    }
+
+    public string ParaArquivo()
+    {
+        return $"{origem.ToString().PadRight(tamanhoOrigem)}{destino.PadRight(tamanhoDestino)}{distancia.ToString().PadLeft(tamanhoDistancia)}  {tempo.ToString().PadLeft(tamanhoDistancia)}";
     }
 }
 

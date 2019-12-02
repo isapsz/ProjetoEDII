@@ -22,11 +22,12 @@ namespace apCaminhos
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.InclusaoCaminho);
-            // Create your application here
 
-            //btnAdicionarCaminho = FindViewById<Button>(Resource.Id.btnAdicionar);
-            //edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
-            //edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
+            btnAdicionarCaminho = FindViewById<Button>(Resource.Id.btnAdicionar);
+            edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
+            edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
+            edtDistancia = FindViewById<EditText>(Resource.Id.edtDistancia);
+            edtTempo = FindViewById<EditText>(Resource.Id.edtTempo);
 
             btnAdicionarCaminho.Click += (s, e) =>
             {

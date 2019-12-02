@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 class BucketHash
 {
@@ -62,4 +63,26 @@ class BucketHash
         }
     }
 
+    public Cidade this[int id]
+    {
+        get
+        {
+            Cidade cidade;
+            for (int i = 0; i < SIZE; i++)
+            {
+                if ((cidade = data[i].Existe(new Cidade(id))) != null)
+                    return cidade;
+            }
+
+            return null;
+        }
+    }
+
+    protected bool EstaVazia()
+    {
+        for (int i = 0; i < SIZE; i++)
+            if (data[i].EstaVazia)
+                return true;
+        return false;
+    }
 }

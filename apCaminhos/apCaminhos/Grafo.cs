@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 class Grafo
 {
@@ -24,14 +25,12 @@ class Grafo
     private Vertice[] vertices;
     private Peso[,] adjMatriz;
     int numVerts;
-    private Peso qual; 
 
     /// DJIKSTRA
     DistOriginal[] percurso;
     int infinity = int.MaxValue;
     int verticeAtual;   // global usada para indicar o vértice atualmente sendo visitado 
     int doInicioAteAtual;   // global usada para ajustar menor caminho com Djikstra
-    int nTree;
 
     public int NumVerts {
         get => numVerts;
@@ -42,7 +41,6 @@ class Grafo
         vertices = new Vertice[NUM_VERTICES];
         adjMatriz = new Peso[NUM_VERTICES, NUM_VERTICES];
         numVerts = 0;
-        nTree = 0;
 
         for (int j = 0; j < NUM_VERTICES; j++)      // zera toda a matriz
             for (int k = 0; k < NUM_VERTICES; k++)
@@ -179,7 +177,7 @@ class Grafo
 
     public string ExibirPercurso(int inicioDoPercurso, int finalDoPercurso)
     {
-        string linha = "", resultado = "";
+        string resultado = "";
 
         resultado += "Caminho entre " + vertices[inicioDoPercurso].rotulo + " e " + vertices[finalDoPercurso].rotulo;
 

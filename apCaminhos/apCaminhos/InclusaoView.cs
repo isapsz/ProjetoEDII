@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 using Android.App;
@@ -12,10 +13,11 @@ using Android.Widget;
 
 namespace apCaminhos
 { 
+    
     [Activity(Label = "InclusaoView")]
     public class InclusaoView : Activity
     {
-        ImageView imgMapa;
+        View imgMapa;
         EditText edtCidade;
         Button btnSalvar;
 
@@ -29,7 +31,7 @@ namespace apCaminhos
 
             btnSalvar = FindViewById<Button>(Resource.Id.btnSalvar);
             edtCidade = FindViewById<EditText>(Resource.Id.edtNome);
-            imgMapa = FindViewById<ImageView>(Resource.Id.img);
+            imgMapa = FindViewById<View>(Resource.Id.img);
 
             imgMapa.Touch += (s, e) =>
             {

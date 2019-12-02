@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+  <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,13 +25,15 @@
         android:textSize="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <ImageView
-        android:src="@drawable/mapaespanhaportugal"
+    <View
+        android:background="@drawable/mapaespanhaportugal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/img"/>
     <Button
         android:text="Salvar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSalvar" />
+
 </LinearLayout>
