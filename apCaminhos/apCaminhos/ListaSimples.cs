@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Java.IO;
+using System;
 using System.IO;
 
 public class ListaSimples<Dado> where Dado : IComparable<Dado>, IGravarEmArquivo
@@ -11,29 +12,22 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>, IGravarEmArquivo
         primeiro = ultimo = anterior = atual = null;
         quantosNos = 0;
     }
-    public void percorrerLista()
-    {
-        atual = primeiro;
-        while (atual != null)
-        {
-            Console.WriteLine(atual.Info);
-            atual = atual.Prox;
-        }
-    }
 
-    public void ParaArquivo(StreamWriter escritor)
+    public void ParaArquivo(string escritor)
     {
-        escritor.BaseStream.Seek(0, SeekOrigin.End);
-
+        /*escritor..Seek(0, SeekOrigin.End);*/
+        
         atual = primeiro;
+        string s;
 
         while (atual != null)
         {
-            escritor.WriteLine(atual.Info.ParaArquivo());
+            s = atual.Info.ParaArquivo();
+            System.IO.File.AppendAllText(escritor, s);
             atual = atual.Prox;
         }
 
-        escritor.Close();
+        //escritor.Close();
     }
 
     public bool EstaVazia

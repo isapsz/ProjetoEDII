@@ -97,7 +97,7 @@ public class Cidade : IComparable<Cidade>, IGravarEmArquivo
       Sobrecarga do construtor que não recebe como parâmetro todos os atributos da classe e os instância com base nos parâmetros.
       @params os atributos inteiros id da cidade, coordenadas de onde está localizada e uma string com o nome da cidade.
     */
-    public Cidade(int id, string nome, int coordenadaX, int coordenadaY)
+    public Cidade(int id, string nome, float coordenadaX, float coordenadaY)
     {
         Id = id;
         Nome = nome;
@@ -138,8 +138,9 @@ public class Cidade : IComparable<Cidade>, IGravarEmArquivo
             {
                 ret = new Cidade();
                 string linha = arq.ReadLine();
+                linha = linha.Replace(',', '.');
                 ret.Id = int.Parse(linha.Substring(inicioId, tamanhoId));
-                ret.Nome = linha.Substring(inicioNome, tamanhoNome).Trim();
+                ret.Nome = linha.Substring(inicioNome, tamanhoNome).Trim().ToUpper();
                 ret.CoordenadaX = float.Parse(linha.Substring(inicioCoordenadaX, tamanhoCoordenadaX));
                 ret.CoordenadaY = float.Parse(linha.Substring(inicioCoordenadaY));
             }

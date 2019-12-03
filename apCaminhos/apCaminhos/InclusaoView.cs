@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -17,11 +18,12 @@ namespace apCaminhos
     [Activity(Label = "InclusaoView")]
     public class InclusaoView : Activity
     {
-        View imgMapa;
+        ImageView imgMapa;
         EditText edtCidade;
         Button btnSalvar;
+        Bitmap bitmap;
 
-        int x = -1, y = -1;
+        float x = -1, y = -1;
         string nome;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,7 +33,10 @@ namespace apCaminhos
 
             btnSalvar = FindViewById<Button>(Resource.Id.btnSalvar);
             edtCidade = FindViewById<EditText>(Resource.Id.edtNome);
-            imgMapa = FindViewById<View>(Resource.Id.img);
+            imgMapa = FindViewById<ImageView>(Resource.Id.img);
+
+            bitmap = BitmapFactory.DecodeResource(Resources, Resource.Drawable.mapaEspanhaPortugal);
+            imgMapa.SetImageBitmap(bitmap);
 
             imgMapa.Touch += (s, e) =>
             {
@@ -40,12 +45,21 @@ namespace apCaminhos
                 imgMapa.GetLocationOnScreen(coords);
 
                 //achando as coordenadas d click em relação à tela
-                int x = (int)e.Event.GetX();
-                int y = (int)e.Event.GetY();
+                x = (int)e.Event.GetX() * bitmap.Width/imgMapa.Width;
+                y = (int)e.Event.GetY() * bitmap.Height / imgMapa.Height;
 
-                //achando as coordenadas d click em relação ao imageView
-                x -= coords[0];
-                y -= coords[1];
+                Paint p = new Paint();
+                Bitmap btm = bitmap.Copy(bitmap.GetConfig(), true);
+                Canvas c = new Canvas(btm);
+
+                p.Color = Color.Red;
+
+                c.DrawCircle(x, y, 20, p);
+
+                imgMapa.SetImageBitmap(btm);
+
+                x /= btm.Width;
+                y /= btm.Height;
             };
 
             btnSalvar.Click += (s, e) =>

@@ -134,8 +134,8 @@ class Caminho  : IComparable<Caminho>, IGravarEmArquivo
             {
                 string linha = arq.ReadLine();
 
-                ret = new Caminho(linha.Substring(inicioOrigem, tamanhoOrigem).Trim(),
-                                  linha.Substring(inicioDestino, tamanhoDestino).Trim(),
+                ret = new Caminho(linha.Substring(inicioOrigem, tamanhoOrigem).Trim().ToUpper(),
+                                  linha.Substring(inicioDestino, tamanhoDestino).Trim().ToUpper(),
                                   int.Parse(linha.Substring(inicioDistancia,tamanhoDistancia)),
                                   int.Parse(linha.Substring(inicioTempo)));
             }

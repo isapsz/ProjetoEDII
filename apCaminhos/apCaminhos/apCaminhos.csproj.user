@@ -3,7 +3,7 @@
   <PropertyGroup>
     <SelectedDevice>Teste2</SelectedDevice>
     <AndroidDesignerPreferredDevice>Nexus 5</AndroidDesignerPreferredDevice>
-    <AndroidDesignerPreferredTheme>Theme.DeviceDefault.InputMethod</AndroidDesignerPreferredTheme>
+    <AndroidDesignerPreferredTheme>Theme.DeviceDefault.Light.NoActionBar.Overscan</AndroidDesignerPreferredTheme>
     <DefaultDevice>Teste2</DefaultDevice>
   </PropertyGroup>
 </Project>

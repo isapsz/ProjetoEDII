@@ -4,9 +4,9 @@ using System.IO;
 
 class Grafo
 {
-    public enum Pesos {tempo, distancia};
+    public enum Pesos { tempo, distancia };
 
-    private class Peso
+    public class Peso
     {
         int distancia, tempo;
 
@@ -28,7 +28,7 @@ class Grafo
 
     /// DJIKSTRA
     DistOriginal[] percurso;
-    int infinity = int.MaxValue;
+    public const int infinity = 10000;
     int verticeAtual;   // global usada para indicar o vértice atualmente sendo visitado 
     int doInicioAteAtual;   // global usada para ajustar menor caminho com Djikstra
 
@@ -75,8 +75,16 @@ class Grafo
         adjMatriz[idOrigem, idDestino].Distancia = distancia;
         adjMatriz[idOrigem, idDestino].Tempo = tempo;
     }
-    
 
+    public Vertice this[int i]
+    {
+        get =>  vertices[i];
+    }
+
+    public Peso this[int i,int j]
+    {
+        get=> adjMatriz[i, j];
+    }
     public void removerVertice(int vert)
     {
         if (vert != numVerts - 1)
@@ -106,7 +114,7 @@ class Grafo
     }
     
 
-    public string Caminho(int inicioDoPercurso, int finalDoPercurso, Pesos opcao)
+    public DistOriginal[] Caminho(int inicioDoPercurso, int finalDoPercurso, Pesos opcao)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].foiVisitado = false;
@@ -139,9 +147,10 @@ class Grafo
             AjustarMenorCaminho(opcao);
         }
 
-        return ExibirPercurso(inicioDoPercurso, finalDoPercurso);
+        return percurso;
     }
 
+  
     public int ObterMenor()
     {
         int pesoMinimo = infinity;
@@ -173,61 +182,4 @@ class Grafo
                 }
             }
     }
-
-
-    public string ExibirPercurso(int inicioDoPercurso, int finalDoPercurso)
-    {
-        string resultado = "";
-
-        resultado += "Caminho entre " + vertices[inicioDoPercurso].rotulo + " e " + vertices[finalDoPercurso].rotulo;
-
-        int onde = finalDoPercurso, anterior = 0, tempo= 0, distancia= 0;
-        Stack<string> pilha = new Stack<string>();
-
-        while (onde != inicioDoPercurso)
-        {
-            anterior = onde;
-            onde = percurso[onde].verticePai;
-
-            tempo += adjMatriz[onde, anterior].Tempo;
-            distancia += adjMatriz[onde, anterior].Distancia;
-
-            pilha.Push(vertices[onde].rotulo);
-        }
-
-        while (pilha.Count != 0)
-        {
-            resultado += pilha.Pop();
-            if (pilha.Count != 0)
-                resultado += " --> ";
-        }
-
-        if ((pilha.Count == 1) && (percurso[finalDoPercurso].peso == infinity))
-            resultado = "Não há caminho";
-        else
-            resultado += " --> " + vertices[finalDoPercurso].rotulo;
-
-        resultado += "\nTempo: " + tempo + "Distancia: " + distancia+ "km";
-
-        return resultado;
-
-        /* for (int j = 0; j < numVerts; j++)
-         {
-             linha += vertices[j].rotulo + "=";
-             if (percurso[j].peso == infinity)
-                 linha += "inf";
-             else
-                 linha += percurso[j].peso;
-             string pai = vertices[percurso[j].verticePai].rotulo;
-             linha += "(" + pai + ") ";
-         }*/
-
-
-        //lista.Items.Add("Caminho entre " + vertices[inicioDoPercurso].rotulo +
-        // " e " + vertices[finalDoPercurso].rotulo);
-
-
-    }
-
-
 }

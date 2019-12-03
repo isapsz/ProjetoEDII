@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:text="Nome"
-            android:textSize="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtNome" />
-        <EditText
-            android:hint="Nome da cidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtNome"
-            android:textColor="@android:color/background_dark" />
-    </LinearLayout>
-    <TextView
-        android:text="Localize a cidade a ser inserida no mapa"
-        android:textSize="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <View
-        android:background="@drawable/mapaespanhaportugal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/img"/>
-    <Button
-        android:text="Salvar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSalvar" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/edtNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:hint="Nome"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:gravity="center"
+            android:text="Selecione as coordenadas das cidades"
+            android:textSize="24dp"
+            />
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"></ImageView>
+
+
+        <Button
+            android:id="@+id/btnSalvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:textColor="#ffff"
+            android:textSize="24dp"
+            android:background="#e74c3c"
+            android:layout_margin="20dp"/>
+    </LinearLayout>
+
+</ScrollView>

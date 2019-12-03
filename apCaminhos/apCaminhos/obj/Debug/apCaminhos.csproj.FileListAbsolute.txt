@@ -14,6 +14,8 @@ C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\res
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\res\drawable\mapaespanhaportugal.jpg
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\R.cs.flag
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\uploadflags.txt
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll.mdb
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\android\assets\apCaminhos.dll.mdb
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll
 bin\Debug\Mono.Android.pdb
 bin\Debug\mscorlib.pdb

@@ -28,8 +28,9 @@ class BucketHash
 
     public void Insert(Cidade item)
     {
+        item.Nome = item.Nome.ToUpper();
         int hash_value = Hash(item.Nome);
-        
+
         if (!data[hash_value].ExisteDado(item))
             data[hash_value].InserirEmOrdem(item);
     }
@@ -60,21 +61,6 @@ class BucketHash
         get
         {
             return data[Hash(nome)].Existe(new Cidade(nome));
-        }
-    }
-
-    public Cidade this[int id]
-    {
-        get
-        {
-            Cidade cidade;
-            for (int i = 0; i < SIZE; i++)
-            {
-                if ((cidade = data[i].Existe(new Cidade(id))) != null)
-                    return cidade;
-            }
-
-            return null;
         }
     }
 
