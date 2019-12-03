@@ -159,8 +159,8 @@ public class Cidade : IComparable<Cidade>, IGravarEmArquivo
     */
     public int CompareTo(Cidade outra)
     {
-        if(this.id != -1 && outra.id != -1)
-            return this.id - outra.Id;
+        //if((this.id != -1 && outra.id != -1))
+       //     return this.id - outra.Id;
 
         return this.nome.CompareTo(outra.nome);
     }
@@ -180,6 +180,6 @@ public class Cidade : IComparable<Cidade>, IGravarEmArquivo
    */
     public string ParaArquivo()
     {
-        return $"{id.ToString().PadLeft(2)}{nome.PadRight(16)}{coordenadaX: 0,000} {coordenadaY: 0,000}";
+        return $"{id.ToString().PadLeft(2)}{nome.PadRight(16)}{coordenadaX.ToString("0.000")} {coordenadaY.ToString("0.000")}";
     }
 }

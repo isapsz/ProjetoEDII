@@ -1,14 +1,13 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using System.IO;
 using System;
 using Android.Views;
+using System.IO;
 using Android.Graphics;
 using Android.Content;
 using Android.Runtime;
 using System.Collections.Generic;
-using Java.IO;
 
 namespace apCaminhos
 {
@@ -196,60 +195,91 @@ namespace apCaminhos
             trocarPagina = false;
         }
 
-        private void LerArquivos(){
+        private void LerArquivos()
+        {
+            string sandbox = FilesDir.AbsolutePath;
 
-            String sandbox = FilesDir.AbsolutePath;
-            string arquivo = System.IO.Path.Combine(sandbox, "Cidades.txt");
-            bool existe = System.IO.File.Exists(arquivo);
-            FileStream interno = null;
-            StreamWriter arqInterno = null;
-            if (!existe)
+            string caminhoArquivo = System.IO.Path.Combine(sandbox, "Cidades.txt");
+
+            if (!File.Exists(caminhoArquivo))
             {
-                interno = System.IO.File.OpenWrite(arquivo);
-                 arqInterno = new StreamWriter(interno);
+                using (StreamReader arquivoAsset = new StreamReader(Assets.Open("Cidades.txt")))
+                {
+                    StreamWriter saidaArquivoInterno = new StreamWriter(caminhoArquivo);
+                    while (!arquivoAsset.EndOfStream)
+                    {
+                        Cidade cidade = Cidade.LerRegistro(arquivoAsset);
+                        bucketCidades.Insert(cidade);
+                        grafo.NovoVertice(cidade.Nome);
+                        saidaArquivoInterno.WriteLine(cidade.ParaArquivo());
+                    }
+                    saidaArquivoInterno.Close();
+                }
+
+                foreach (string a in File.ReadAllLines(caminhoArquivo))
+                {
+                    string hdsj = a;
+                }
             }
-
-
-            StreamReader leitor = new StreamReader(Assets.Open("Cidades.txt"));
-            while (!leitor.EndOfStream){
-                Cidade cidade = Cidade.LerRegistro(leitor);
-                bucketCidades.Insert(cidade);
-                grafo.NovoVertice(cidade.Nome);
-                if(!existe)
-                    arqInterno.WriteLine(cidade.ParaArquivo());
-                
-            }
-
-            leitor.Close();
-
-            if(!existe)
-            arqInterno.Close();
-
-            arquivo = System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt");
-            existe = System.IO.File.Exists(arquivo);
-            if (!existe)
+            else
             {
-                interno = System.IO.File.OpenWrite(arquivo);
-                arqInterno = new StreamWriter(interno);
+                using (StreamReader arquivoInterno = new StreamReader(caminhoArquivo))
+                {
+                    while (!arquivoInterno.EndOfStream)
+                    {
+                        Cidade cidade = Cidade.LerRegistro(arquivoInterno);
+                        bucketCidades.Insert(cidade);
+                        grafo.NovoVertice(cidade.Nome);
+                    }
+                }
+                foreach (string a in File.ReadAllLines(caminhoArquivo))
+                {
+                    string hdsj = a;
+                }
             }
 
-            leitor = new StreamReader(Assets.Open("GrafoTremEspanhaPortugal.txt"));
-            while(!leitor.EndOfStream){
-                Caminho caminho = Caminho.LerRegistro(leitor);
-                grafo.NovaAresta(bucketCidades[caminho.Origem].Id, bucketCidades[caminho.Destino].Id, caminho.Distancia, caminho.Tempo);
-                if (!existe)
-                    arqInterno.WriteLine(caminho.ParaArquivo());
-                
+            caminhoArquivo = System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt");
+
+
+            if (!File.Exists(caminhoArquivo))
+            {
+                using (StreamReader arquivoAsset = new StreamReader(Assets.Open("GrafoTremEspanhaPortugal.txt")))
+                {
+                    StreamWriter saidaArquivoInterno = new StreamWriter(caminhoArquivo);
+                    while (!arquivoAsset.EndOfStream)
+                    {
+                        Caminho caminho = Caminho.LerRegistro(arquivoAsset);
+                        grafo.NovaAresta(bucketCidades[caminho.Origem].Id, bucketCidades[caminho.Destino].Id, caminho.Distancia, caminho.Tempo);
+                        saidaArquivoInterno.WriteLine(caminho.ParaArquivo());
+                    }
+                    
+                    saidaArquivoInterno.Close();
+                }
+
+                foreach (string a in File.ReadAllLines(caminhoArquivo))
+                {
+                    string hdsj = a;
+                }
             }
-
-
-            if(!existe)
-                arqInterno.Close();
-
-            String a = System.IO.File.ReadAllText(arquivo);
-            leitor.Close();
+            else
+            {
+                using (StreamReader arquivoInterno = new StreamReader(caminhoArquivo))
+                {
+                    while (!arquivoInterno.EndOfStream)
+                    {
+                        Caminho caminho = Caminho.LerRegistro(arquivoInterno);
+                        grafo.NovaAresta(bucketCidades[caminho.Origem].Id, bucketCidades[caminho.Destino].Id, caminho.Distancia, caminho.Tempo);
+                    }
+                }
+                foreach (string a in File.ReadAllLines(caminhoArquivo))
+                {
+                    string hdsj = a;
+                }
+            }
         }
-        
+
+       
+
         protected override void OnStop(){
             base.OnStop();
 
@@ -259,10 +289,22 @@ namespace apCaminhos
 
         private void EscreverArquivos()
         {
-            String sandbox = FilesDir.AbsolutePath;
+            string sandbox = FilesDir.AbsolutePath;
+
             
-            cidadesNovas.ParaArquivo(System.IO.Path.Combine(sandbox, "Cidades.txt"));
-            caminhosNovos.ParaArquivo(System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt"));
+            cidadesNovas.ParaArquivo(new StreamWriter(System.IO.Path.Combine(sandbox, "Cidades.txt"), true));
+
+            foreach (string a in File.ReadAllLines(System.IO.Path.Combine(sandbox, "Cidades.txt")))
+            {
+                string hdsj = a;
+            }
+
+            
+            caminhosNovos.ParaArquivo(new StreamWriter(System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt"), true));
+            foreach (string a in File.ReadAllLines(System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt")))
+            {
+                string hdsj = a;
+            }
         }
     }
 }

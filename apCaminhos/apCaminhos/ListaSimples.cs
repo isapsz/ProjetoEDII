@@ -13,21 +13,18 @@ public class ListaSimples<Dado> where Dado : IComparable<Dado>, IGravarEmArquivo
         quantosNos = 0;
     }
 
-    public void ParaArquivo(string escritor)
+    public void ParaArquivo(StreamWriter escritor)
     {
-        /*escritor..Seek(0, SeekOrigin.End);*/
-        
         atual = primeiro;
-        string s;
 
         while (atual != null)
         {
-            s = atual.Info.ParaArquivo();
-            System.IO.File.AppendAllText(escritor, s);
+            escritor.WriteLine(atual.Info.ParaArquivo());
+           
             atual = atual.Prox;
         }
 
-        //escritor.Close();
+        escritor.Close();
     }
 
     public bool EstaVazia
