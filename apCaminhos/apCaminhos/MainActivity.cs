@@ -8,6 +8,7 @@ using Android.Graphics;
 using Android.Content;
 using Android.Runtime;
 using System.Collections.Generic;
+using System.Text;
 
 namespace apCaminhos
 {
@@ -18,7 +19,6 @@ namespace apCaminhos
 
         Button btnMaisCidade, btnMaisCaminho, btnBuscar;
         ImageView imgMapa;
-        EditText edtOrigem, edtDestino;
         TextView txtCaminho;
         Grafo grafo;
         bool trocarPagina;
@@ -27,6 +27,7 @@ namespace apCaminhos
         ListaSimples<Caminho> caminhosNovos;
         RadioButton rbTempo, rbDistancia;
         Bitmap canvas;
+        Spinner spinnerOrigem, spinnerDestino;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,25 +43,22 @@ namespace apCaminhos
             btnMaisCidade = FindViewById<Button>(Resource.Id.btnCidade);
             btnBuscar = FindViewById<Button>(Resource.Id.btnBuscar);
             imgMapa = FindViewById<ImageView>(Resource.Id.img);
-            edtDestino = FindViewById<EditText>(Resource.Id.edtDestino);
-            edtOrigem = FindViewById<EditText>(Resource.Id.edtOrigem);
             rbDistancia = FindViewById<RadioButton>(Resource.Id.rbDistancia);
             rbTempo = FindViewById<RadioButton>(Resource.Id.rbTempo);
             txtCaminho = FindViewById<TextView>(Resource.Id.txtCaminho);
-            
-            btnBuscar.Click += (o, e) => {
-                if (string.IsNullOrWhiteSpace(edtDestino.Text)  || string.IsNullOrWhiteSpace(edtOrigem.Text))
-                    Toast.MakeText(ApplicationContext, "Preencha o nome das cidades.", ToastLength.Long).Show();
-                else
-                {
-                    Cidade origem = bucketCidades[edtOrigem.Text.ToUpper()];
-                    Cidade destino = bucketCidades[edtDestino.Text.ToUpper()];
+            spinnerOrigem = FindViewById<Spinner>(Resource.Id.spinnerOrigem);
+            spinnerDestino = FindViewById<Spinner>(Resource.Id.spinnerDestino);
 
-                    if (origem == null || destino == null || origem.Equals(destino))
-                        Toast.MakeText(ApplicationContext, "Erro. Preencha todos os campos corretamente...", ToastLength.Long).Show();
-                    else
-                     DesenharCaminho(origem.Id, destino.Id, (rbDistancia.Checked) ? Grafo.Pesos.distancia : Grafo.Pesos.tempo);
-                }
+            btnBuscar.Click += (o, e) => {
+                
+                Cidade origem = bucketCidades[spinnerOrigem.SelectedItem.ToString().ToUpper()];
+                Cidade destino = bucketCidades[spinnerDestino.SelectedItem.ToString().ToUpper()];
+
+                if (origem == null || destino == null || origem.Equals(destino))
+                    Toast.MakeText(ApplicationContext, "Erro. Preencha todos os campos corretamente...", ToastLength.Long).Show();
+                else
+                    DesenharCaminho(origem.Id, destino.Id, (rbDistancia.Checked) ? Grafo.Pesos.distancia : Grafo.Pesos.tempo);
+                
             };
 
             btnMaisCaminho.Click += (o, e) =>{
@@ -90,8 +88,9 @@ namespace apCaminhos
             Bitmap btm = canvas.Copy(canvas.GetConfig(), true);
             Canvas c = new Canvas(btm);
             string resultado = "";
-            resultado += "Caminho entre " + grafo[inicioDoPercurso].rotulo + " e " + grafo[finalDoPercurso].rotulo+":\n";
-            
+            resultado += "--> Trajeto <--:\n";
+            bool temCaminho = true;
+
             p.Color = Color.Red;
             int onde = finalDoPercurso, anterior = 0, tempo = 0, distancia = 0;
             Stack<string> pilha = new Stack<string>();
@@ -100,6 +99,7 @@ namespace apCaminhos
                          bucketCidades[grafo[onde].rotulo.ToUpper()].CoordenadaY * btm.Height,
                          20, p);
 
+            int aux = 0;
             while (onde != inicioDoPercurso)
             {
                 anterior = onde;
@@ -119,6 +119,7 @@ namespace apCaminhos
                 distancia += grafo[onde, anterior].Distancia;
 
                 pilha.Push(grafo[onde].rotulo);
+                aux++;
             }
 
             while (pilha.Count != 0)
@@ -126,17 +127,25 @@ namespace apCaminhos
                 resultado += pilha.Pop();
                 if (pilha.Count != 0)
                     resultado += " --> ";
+                if (pilha.Count % 2 == 0)
+                    resultado += "\n";
             }
 
-            if ((pilha.Count == 1) && (caminho[finalDoPercurso].peso == Grafo.infinity))
-                resultado = "Não existem caminho entre essas cidades.";
+            if (aux == 1 && caminho[finalDoPercurso].peso == Grafo.infinity)
+                temCaminho = false;
+            
             else
                 resultado += " --> " + grafo[finalDoPercurso].rotulo;
                 
             resultado += "\nTempo: " + tempo + " Distancia: " + distancia + "km";
 
-            imgMapa.SetImageBitmap(btm);
+            if (!temCaminho)
+            {
+                Toast.MakeText(ApplicationContext, "Não existem caminhos entre essas duas cidades", ToastLength.Long).Show();
+                return "";
+            }
 
+            imgMapa.SetImageBitmap(btm);
             return resultado;
         }
 
@@ -200,25 +209,22 @@ namespace apCaminhos
             string sandbox = FilesDir.AbsolutePath;
 
             string caminhoArquivo = System.IO.Path.Combine(sandbox, "Cidades.txt");
-
+            List<string> cidades = new List<string>();
             if (!File.Exists(caminhoArquivo))
             {
                 using (StreamReader arquivoAsset = new StreamReader(Assets.Open("Cidades.txt")))
                 {
+                    
                     StreamWriter saidaArquivoInterno = new StreamWriter(caminhoArquivo);
                     while (!arquivoAsset.EndOfStream)
                     {
                         Cidade cidade = Cidade.LerRegistro(arquivoAsset);
+                        cidades.Add(cidade.Nome);
                         bucketCidades.Insert(cidade);
                         grafo.NovoVertice(cidade.Nome);
                         saidaArquivoInterno.WriteLine(cidade.ParaArquivo());
                     }
                     saidaArquivoInterno.Close();
-                }
-
-                foreach (string a in File.ReadAllLines(caminhoArquivo))
-                {
-                    string hdsj = a;
                 }
             }
             else
@@ -229,15 +235,15 @@ namespace apCaminhos
                     {
                         Cidade cidade = Cidade.LerRegistro(arquivoInterno);
                         bucketCidades.Insert(cidade);
+                        cidades.Add(cidade.Nome);
                         grafo.NovoVertice(cidade.Nome);
                     }
-                }
-                foreach (string a in File.ReadAllLines(caminhoArquivo))
-                {
-                    string hdsj = a;
+
                 }
             }
 
+            spinnerOrigem.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, cidades);
+            spinnerDestino.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, cidades);
             caminhoArquivo = System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt");
 
 
@@ -255,11 +261,6 @@ namespace apCaminhos
                     
                     saidaArquivoInterno.Close();
                 }
-
-                foreach (string a in File.ReadAllLines(caminhoArquivo))
-                {
-                    string hdsj = a;
-                }
             }
             else
             {
@@ -270,10 +271,6 @@ namespace apCaminhos
                         Caminho caminho = Caminho.LerRegistro(arquivoInterno);
                         grafo.NovaAresta(bucketCidades[caminho.Origem].Id, bucketCidades[caminho.Destino].Id, caminho.Distancia, caminho.Tempo);
                     }
-                }
-                foreach (string a in File.ReadAllLines(caminhoArquivo))
-                {
-                    string hdsj = a;
                 }
             }
         }
@@ -290,21 +287,10 @@ namespace apCaminhos
         private void EscreverArquivos()
         {
             string sandbox = FilesDir.AbsolutePath;
-
             
             cidadesNovas.ParaArquivo(new StreamWriter(System.IO.Path.Combine(sandbox, "Cidades.txt"), true));
-
-            foreach (string a in File.ReadAllLines(System.IO.Path.Combine(sandbox, "Cidades.txt")))
-            {
-                string hdsj = a;
-            }
-
             
             caminhosNovos.ParaArquivo(new StreamWriter(System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt"), true));
-            foreach (string a in File.ReadAllLines(System.IO.Path.Combine(sandbox, "GrafoTremEspanhaPortugal.txt")))
-            {
-                string hdsj = a;
-            }
         }
     }
 }

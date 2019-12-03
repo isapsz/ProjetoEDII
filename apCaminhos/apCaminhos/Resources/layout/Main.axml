@@ -17,19 +17,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
-              <EditText
-                    android:id="@+id/edtOrigem"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:layout_weight="1"
-                    android:hint="Origem" />
-                <EditText
-                    android:id="@+id/edtDestino"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:hint="Destino" />
+              <Spinner
+                  android:id="@+id/spinnerOrigem"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="20dp"
+                  android:layout_weight="1"
+                  android:hint="Origem" />
+              <Spinner
+                  android:id="@+id/spinnerDestino"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:layout_margin="20dp"
+                  android:hint="Destino" />
+           
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +78,7 @@
             android:id="@+id/txtCaminho"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000"
+            android:textColor="#ffff"
             android:gravity="center"
             android:textSize="24dp" />
         <LinearLayout
@@ -105,6 +107,7 @@
                 android:textSize="24dp"
                 android:background="#e74c3c"
                 android:layout_margin="20dp" />
+          
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

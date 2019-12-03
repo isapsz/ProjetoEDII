@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SelectedDevice>Teste2</SelectedDevice>
-    <AndroidDesignerPreferredDevice>Nexus 5</AndroidDesignerPreferredDevice>
+    <AndroidDesignerPreferredDevice>Nexus 7 2013</AndroidDesignerPreferredDevice>
     <AndroidDesignerPreferredTheme>Theme.DeviceDefault.Light.NoActionBar.Overscan</AndroidDesignerPreferredTheme>
     <DefaultDevice>Teste2</DefaultDevice>
   </PropertyGroup>

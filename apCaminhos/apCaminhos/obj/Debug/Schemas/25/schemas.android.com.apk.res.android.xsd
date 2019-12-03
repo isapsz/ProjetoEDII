@@ -2,7 +2,7 @@
 <xs:schema xmlns:android="http://schemas.android.com/apk/res/android" attributeFormDefault="qualified" targetNamespace="http://schemas.android.com/apk/res/android" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>v25</xs:documentation>
-    <xs:documentation>03/12/2019 12:33:06</xs:documentation>
+    <xs:documentation>03/12/2019 17:43:05</xs:documentation>
   </xs:annotation>
   <xs:attribute name="accessibilityLiveRegion">
     <xs:annotation>
@@ -16945,6 +16945,8 @@
             <xs:enumeration value="@id/rbDistancia" />
             <xs:enumeration value="@id/rbGroup" />
             <xs:enumeration value="@id/rbTempo" />
+            <xs:enumeration value="@id/spinnerDestino" />
+            <xs:enumeration value="@id/spinnerOrigem" />
             <xs:enumeration value="@id/txtCaminho" />
             <xs:enumeration value="@android:id/accessibilityActionContextClick" />
             <xs:enumeration value="@android:id/accessibilityActionScrollDown" />
