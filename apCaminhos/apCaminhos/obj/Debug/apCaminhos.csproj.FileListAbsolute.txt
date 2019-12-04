@@ -16,7 +16,8 @@ C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\R.c
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\uploadflags.txt
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll.mdb
 C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\obj\Debug\android\assets\apCaminhos.dll.mdb
-obj\Debug\linksrc\Mono.Android.pdb
+C:\Users\u18189\Documents\GitHub\ProjetoEDII\apCaminhos\apCaminhos\bin\Debug\apCaminhos.dll
+bin\Debug\Mono.Android.pdb
 bin\Debug\mscorlib.pdb
 bin\Debug\System.Core.pdb
 bin\Debug\System.pdb
@@ -27,6 +28,7 @@ bin\Debug\System.ServiceModel.Internals.pdb
 bin\Debug\Mono.Security.pdb
 bin\Debug\System.ComponentModel.Composition.pdb
 obj\Debug\linksrc\apCaminhos.dll.mdb
+obj\Debug\linksrc\Mono.Android.pdb
 obj\Debug\linksrc\mscorlib.pdb
 obj\Debug\linksrc\System.Core.pdb
 obj\Debug\linksrc\System.pdb

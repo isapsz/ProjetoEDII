@@ -93,6 +93,9 @@ namespace apCaminhos
 			// aapt resource value: 0x7f050001
 			public const int img = 2131034113;
 			
+			// aapt resource value: 0x7f05000e
+			public const int lvCaminho = 2131034126;
+			
 			// aapt resource value: 0x7f05000b
 			public const int rbDistancia = 2131034123;
 			
@@ -107,9 +110,6 @@ namespace apCaminhos
 			
 			// aapt resource value: 0x7f050008
 			public const int spinnerOrigem = 2131034120;
-			
-			// aapt resource value: 0x7f05000e
-			public const int txtCaminho = 2131034126;
 			
 			static Id()
 			{

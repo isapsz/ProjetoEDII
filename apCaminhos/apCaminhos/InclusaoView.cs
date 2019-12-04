@@ -40,11 +40,7 @@ namespace apCaminhos
 
             imgMapa.Touch += (s, e) =>
             {
-                //achando a posicao do imageView
-                int[] coords = new int[2];
-                imgMapa.GetLocationOnScreen(coords);
-
-                //achando as coordenadas d click em relação à tela
+                //achando as coordenadas do click em relação ao mapa
                 x = (int)e.Event.GetX() * bitmap.Width/imgMapa.Width;
                 y = (int)e.Event.GetY() * bitmap.Height / imgMapa.Height;
 
@@ -58,10 +54,12 @@ namespace apCaminhos
 
                 imgMapa.SetImageBitmap(btm);
 
+                //definindo as coordenadas para serem gravadas no arquivo
                 x /= btm.Width;
                 y /= btm.Height;
             };
 
+            //Envia, por meio de uma Intent os valores da nova cidade, sendo seu nome e coordenadas.
             btnSalvar.Click += (s, e) =>
             {
                 if (string.IsNullOrWhiteSpace(edtCidade.Text.ToString()))

@@ -21,7 +21,7 @@ namespace apCaminhos
         ImageView imgMapa;
         TextView txtCaminho;
         Grafo grafo;
-        bool trocarPagina;
+        bool trocarPagina; //define se estamos indo para uma nova página ou fechando  o app
         BucketHash bucketCidades;
         ListaSimples<Cidade> cidadesNovas;
         ListaSimples<Caminho> caminhosNovos;
@@ -45,10 +45,11 @@ namespace apCaminhos
             imgMapa = FindViewById<ImageView>(Resource.Id.img);
             rbDistancia = FindViewById<RadioButton>(Resource.Id.rbDistancia);
             rbTempo = FindViewById<RadioButton>(Resource.Id.rbTempo);
-            txtCaminho = FindViewById<TextView>(Resource.Id.txtCaminho);
+            txtCaminho = FindViewById<TextView>(Resource.Id.lvCaminho);
             spinnerOrigem = FindViewById<Spinner>(Resource.Id.spinnerOrigem);
             spinnerDestino = FindViewById<Spinner>(Resource.Id.spinnerDestino);
 
+            //busca o caminho com base nas cidades escolhidas pelo Spinner(comboBox) de origem e destino. Aciona um Toast caso o caminho não exista.
             btnBuscar.Click += (o, e) => {
                 
                 Cidade origem = bucketCidades[spinnerOrigem.SelectedItem.ToString().ToUpper()];
@@ -61,11 +62,13 @@ namespace apCaminhos
                 
             };
 
+            //Abre uma nova página para adicionar o caminho.
             btnMaisCaminho.Click += (o, e) =>{
                 trocarPagina = true;
                 IncluirNoArquivo(REQUEST_CAMINHO);
             };
 
+            //Abre uma nova página para adicionar a cidade. 
             btnMaisCidade.Click += (o, e) => {
                 trocarPagina = true;
                 IncluirNoArquivo(REQUEST_CIDADE);
@@ -75,20 +78,24 @@ namespace apCaminhos
             imgMapa.SetImageBitmap(canvas);
             LerArquivos();
         }
+
+        //chama o método de definir o caminho pelo grafo, usando Dijkstra e depois o exibe.
         private void DesenharCaminho(int origem, int destino, Grafo.Pesos peso)
         {
             DistOriginal[] caminho = grafo.Caminho(origem, destino, peso);
-            txtCaminho.Text = ExibirPercurso(origem, destino, caminho);
+            txtCaminho.Text = ExibirPercurso(origem, destino, caminho); //exibe o percurso e desenha no mapa
         }
 
+        //Exibe o percurso no mapa e retorna uma string com todas as cidades percorridas e o tempo e a distância do percurso.
         private string ExibirPercurso(int inicioDoPercurso, int finalDoPercurso, DistOriginal[] caminho)
         {
+            List<string> percurso = new List<string>();
             Paint p = new Paint();
             p.StrokeWidth = 15;
             Bitmap btm = canvas.Copy(canvas.GetConfig(), true);
             Canvas c = new Canvas(btm);
             string resultado = "";
-            resultado += "--> Trajeto <--:\n";
+            resultado += "Caminho:\n\n";
             bool temCaminho = true;
 
             p.Color = Color.Red;
@@ -124,20 +131,16 @@ namespace apCaminhos
 
             while (pilha.Count != 0)
             {
-                resultado += pilha.Pop();
-                if (pilha.Count != 0)
-                    resultado += " --> ";
-                if (pilha.Count % 2 == 0)
-                    resultado += "\n";
+                resultado += pilha.Pop() + "\n";
             }
 
             if (aux == 1 && caminho[finalDoPercurso].peso == Grafo.infinity)
                 temCaminho = false;
             
             else
-                resultado += " --> " + grafo[finalDoPercurso].rotulo;
-                
-            resultado += "\nTempo: " + tempo + " Distancia: " + distancia + "km";
+                resultado += grafo[finalDoPercurso].rotulo + "\n";
+
+            resultado += "Tempo: " + tempo + "min\nDistancia: " + distancia + "km";
 
             if (!temCaminho)
             {
@@ -149,6 +152,7 @@ namespace apCaminhos
             return resultado;
         }
 
+        //Chama as Activitys(páginas) para adicionar Caminho e Cidade no arquivo com base no parâmetro passado.
         private void IncluirNoArquivo(int request)
         {
             Intent intent;
@@ -159,6 +163,7 @@ namespace apCaminhos
             StartActivityForResult(intent, request);
         }
 
+        //Recebe os valores de cidade ou caminho e trata inserindo em listas de novos valores.
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             switch(requestCode)
@@ -196,6 +201,10 @@ namespace apCaminhos
                                              destino.Id,
                                              novoCaminho.Distancia,
                                              novoCaminho.Tempo);
+                            grafo.NovaAresta(destino.Id,
+                                             origem.Id,
+                                             novoCaminho.Distancia,
+                                             novoCaminho.Tempo);
                         }
                     }
                     break; 
@@ -204,6 +213,7 @@ namespace apCaminhos
             trocarPagina = false;
         }
 
+        //Lê os arquivos de cidades e caminhos armazenados, em primeiro momento no Assets e depois na memória interna do celular.
         private void LerArquivos()
         {
             string sandbox = FilesDir.AbsolutePath;
@@ -214,7 +224,6 @@ namespace apCaminhos
             {
                 using (StreamReader arquivoAsset = new StreamReader(Assets.Open("Cidades.txt")))
                 {
-                    
                     StreamWriter saidaArquivoInterno = new StreamWriter(caminhoArquivo);
                     while (!arquivoAsset.EndOfStream)
                     {
@@ -270,20 +279,22 @@ namespace apCaminhos
                     {
                         Caminho caminho = Caminho.LerRegistro(arquivoInterno);
                         grafo.NovaAresta(bucketCidades[caminho.Origem].Id, bucketCidades[caminho.Destino].Id, caminho.Distancia, caminho.Tempo);
+                        grafo.NovaAresta(bucketCidades[caminho.Destino].Id, bucketCidades[caminho.Origem].Id, caminho.Distancia, caminho.Tempo);
                     }
                 }
             }
         }
 
-       
-
+        //Chama o método para escrever os novos valores no arquivo texto que fica na memória interna do celular caso estejamos fechando o app,
+        //ou seja, quando a booleana "trocarPagina" estiver falsa.
         protected override void OnStop(){
             base.OnStop();
 
-            if (!trocarPagina)
+            if (!trocarPagina) 
                 EscreverArquivos();
         }
 
+        //Método para escrever nos arquivos internos do celular por meio das listas que guardam as novas cidades e caminhos incluidos.
         private void EscreverArquivos()
         {
             string sandbox = FilesDir.AbsolutePath;

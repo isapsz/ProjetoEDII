@@ -29,6 +29,7 @@ namespace apCaminhos
             edtDistancia = FindViewById<EditText>(Resource.Id.edtDistancia);
             edtTempo = FindViewById<EditText>(Resource.Id.edtTempo);
 
+            //Envia por meio de uma Intent os valores do novo caminho, sendo a cidade de destino, origem, o tempo e a distância do percurso.
             btnAdicionarCaminho.Click += (s, e) =>
             {
                 if (string.IsNullOrWhiteSpace(edtOrigem.Text) || string.IsNullOrWhiteSpace(edtDestino.Text)|| string.IsNullOrWhiteSpace(edtDistancia.Text) || string.IsNullOrWhiteSpace(edtTempo.Text))

@@ -25,12 +25,12 @@ public final class R {
         public static final int edtOrigem=0x7f050003;
         public static final int edtTempo=0x7f050005;
         public static final int img=0x7f050001;
+        public static final int lvCaminho=0x7f05000e;
         public static final int rbDistancia=0x7f05000b;
         public static final int rbGroup=0x7f05000a;
         public static final int rbTempo=0x7f05000c;
         public static final int spinnerDestino=0x7f050009;
         public static final int spinnerOrigem=0x7f050008;
-        public static final int txtCaminho=0x7f05000e;
     }
     public static final class layout {
         public static final int inclusaoactivity=0x7f030000;
