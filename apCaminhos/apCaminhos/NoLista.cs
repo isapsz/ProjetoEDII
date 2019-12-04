@@ -1,4 +1,9 @@
 ﻿using System;
+
+//Amabile Pietrobon Ferreira - 18198
+//Isabela Paulino de Souza - 18189
+//Gustavo Ferreira Gitzel - 18194
+
 public class NoLista<Dado> where Dado : IComparable<Dado>
 { 
     Dado info;

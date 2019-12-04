@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 
+//Amabile Pietrobon Ferreira - 18198
+//Isabela Paulino de Souza - 18189
+//Gustavo Ferreira Gitzel - 18194
+
 class Grafo
 {
     public enum Pesos { tempo, distancia };
