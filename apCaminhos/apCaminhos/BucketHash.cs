@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+//Amabile Pietrobon Ferreira - 18198
+//Isabela Paulino de Souza - 18189
+//Gustavo Ferreira Gitzel - 18194
+
 class BucketHash
 {
     private const int SIZE = 103;

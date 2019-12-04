@@ -2,6 +2,10 @@
 using System;
 using System.IO;
 
+//Amabile Pietrobon Ferreira - 18198
+//Isabela Paulino de Souza - 18189
+//Gustavo Ferreira Gitzel - 18194
+
 public class ListaSimples<Dado> where Dado : IComparable<Dado>, IGravarEmArquivo
 {
     private NoLista<Dado> primeiro, ultimo, anterior, atual;
